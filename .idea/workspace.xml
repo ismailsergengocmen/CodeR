@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e66d34be-5a85-4cc1-bbe4-c4b5e52d2309" name="Changes" comment="" />
+    <list default="true" id="e66d34be-5a85-4cc1-bbe4-c4b5e52d2309" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/backend/entity/CodingAttempt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/backend/entity/CodingAttempt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/backend/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/backend/entity/User.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +26,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/backend" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
@@ -49,6 +53,7 @@
       <updated>1650616123315</updated>
       <workItem from="1650616124883" duration="598000" />
       <workItem from="1650618725165" duration="11000" />
+      <workItem from="1650755439440" duration="33000" />
     </task>
     <servers />
   </component>
