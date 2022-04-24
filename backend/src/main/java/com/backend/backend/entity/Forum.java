@@ -1,21 +1,22 @@
 package com.backend.backend.entity;
-
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class Forum {
-    private  int question_id;
     private int forum_id;
-    private Date create_date;
+    private int question_id;
+    private LocalDate create_date;
     private String title;
 
-    public Forum(int question_id, int forum_id, Date create_date, String title) {
-        this.question_id = question_id;
+    public Forum() {}
+
+    public Forum(int forum_id, int question_id, LocalDate create_date, String title) {
         this.forum_id = forum_id;
+        this.question_id = question_id;
         this.create_date = create_date;
         this.title = title;
     }

@@ -1,4 +1,5 @@
 package com.backend.backend.entity;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,8 @@ public class Attempt {
     private Date attempt_start;
     private int attempt_time;
     private int point;
+
+    public Attempt() {}
 
     public Attempt(int attempt_id, Date attempt_start, int attempt_time, int point) {
         this.attempt_id = attempt_id;
