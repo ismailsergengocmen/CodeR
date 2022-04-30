@@ -19,13 +19,13 @@ public class CompanyController {
         return companyRepository.getAllCompanies();
     }
 
-    @PostMapping("all")
-    public void addNewCompany(@RequestBody int user_id) {
-        companyRepository.addNewCompany(user_id);
-    }
-
     @GetMapping("{user_id}")
     public Company findCompanyWithId(@PathVariable int user_id) {
         return companyRepository.findCompanyWithId(user_id);
+    }
+
+    @PostMapping("all")
+    public void addNewCompany(@RequestBody int user_id) {
+        companyRepository.addNewCompany(user_id);
     }
 }

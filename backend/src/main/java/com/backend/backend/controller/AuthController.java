@@ -10,6 +10,8 @@ import com.backend.backend.util.TypedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -25,27 +27,33 @@ public class AuthController {
     private JobSeekerRepository jobSeekerRepository;
 
     @PostMapping("register")
-    public void registerNewUser(@RequestBody TypedUser typedUser) {
+    public boolean registerNewUser(@RequestBody TypedUser typedUser) {
+        typedUser.setLast_password_change(LocalDateTime.now());
         String hashedPassword = BCrypt.withDefaults().hashToString(12, typedUser.getPassword().toCharArray());
         typedUser.setPassword(hashedPassword);
 
-        int user_id = userRepository.addNewUser(typedUser.getUser());
+        try {
+            int user_id = userRepository.addNewUser(typedUser.getUser());
 
-        switch (typedUser.getType()) {
-            case "jobseeker":
-                jobSeekerRepository.addNewJobSeeker(user_id);
-                break;
-            case "company":
-                companyRepository.addNewCompany(user_id);
-                break;
-            case "editor":
-                editorRepository.addNewEditor(user_id);
-                break;
+            switch (typedUser.getType()) {
+                case "jobseeker":
+                    jobSeekerRepository.addNewJobSeeker(user_id);
+                    break;
+                case "company":
+                    companyRepository.addNewCompany(user_id);
+                    break;
+                case "editor":
+                    editorRepository.addNewEditor(user_id);
+                    break;
+            }
+            return true;
+        } catch(SQLException e) {
+            return false;
         }
     }
 
     @GetMapping("login")
-    public boolean login(@RequestBody User user) {
-        return userRepository.isUserExists(user) != null;
+    public Integer login(@RequestBody User user) {
+        return userRepository.isUserExists(user);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ public class UserRepository {
         user.setName(rs.getString("name"));
         user.setPhone_no(rs.getString("phone_no"));
         user.setDescription(rs.getString("description"));
+        // System.out.println(rs.getTimestamp("last_password_change"));
         // user.setLast_password_change(getLocalDate(rs, "last_password_change"));
         // user.setLast_password_change(LocalDate.parse(rs.getString("last_password_change"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
@@ -36,10 +38,15 @@ public class UserRepository {
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    public int addNewUser(User user) {
+    public Integer addNewUser(User user) throws SQLException {
         String sql = "INSERT INTO user (email, password, name, phone_no, description) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getName(), user.getPhone_no(), user.getDescription());
-        return jdbcTemplate.queryForObject("SELECT user_id FROM user WHERE email = ?", int.class, user.getEmail());
+
+        try {
+            jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getName(), user.getPhone_no(), user.getDescription());
+            return jdbcTemplate.queryForObject("SELECT user_id FROM user WHERE email = ?", int.class, user.getEmail());
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
     }
 
     public User findUserWithId(int user_id) {

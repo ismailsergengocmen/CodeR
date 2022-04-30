@@ -19,14 +19,14 @@ public class EditorController {
         return editorRepository.getAllEditors();
     }
 
-    @PostMapping("all")
-    public void addNewEditor(@RequestBody int user_id) {
-        editorRepository.addNewEditor(user_id);
-    }
-
     @GetMapping("{user_id}")
     public Editor findEditorWithId(@PathVariable int user_id) {
         return editorRepository.findEditorWithId(user_id);
+    }
+
+    @PostMapping("all")
+    public void addNewEditor(@RequestBody int user_id) {
+        editorRepository.addNewEditor(user_id);
     }
 
 }

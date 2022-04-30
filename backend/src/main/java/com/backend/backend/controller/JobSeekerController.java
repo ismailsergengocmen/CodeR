@@ -19,13 +19,13 @@ public class JobSeekerController {
         return jobSeekerRepository.getAllJobSeekers();
     }
 
-    @PostMapping("all")
-    public void addNewJobSeeker(@RequestBody int user_id) {
-        jobSeekerRepository.addNewJobSeeker(user_id);
-    }
-
     @GetMapping("{user_id}")
     public JobSeeker findJobSeekersWithId(@PathVariable int user_id) {
         return jobSeekerRepository.findJobSeekersWithId(user_id);
+    }
+
+    @PostMapping("all")
+    public void addNewJobSeeker(@RequestBody int user_id) {
+        jobSeekerRepository.addNewJobSeeker(user_id);
     }
 }
