@@ -1,21 +1,18 @@
 package com.backend.backend.entity;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
 public class Question {
     private int question_id;
     private int user_id; // editor_id
-    private LocalDate create_date;
+    private LocalDateTime create_date;
     private int question_difficulty;
     private String question_title;
     private String question_content;
 
     public Question() {}
 
-    public Question(int question_id, int user_id, LocalDate create_date, int question_difficulty, String question_title, String question_content) {
+    public Question(int question_id, int user_id, LocalDateTime create_date, int question_difficulty, String question_title, String question_content) {
         this.question_id = question_id;
         this.user_id = user_id;
         this.create_date = create_date;
@@ -40,11 +37,11 @@ public class Question {
         this.user_id = user_id;
     }
 
-    public LocalDate getCreate_date() {
+    public LocalDateTime getCreate_date() {
         return create_date;
     }
 
-    public void setCreate_date(LocalDate create_date) {
+    public void setCreate_date(LocalDateTime create_date) {
         this.create_date = create_date;
     }
 
