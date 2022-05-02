@@ -23,13 +23,14 @@ public class JobSeekerRepository {
         jobseeker.setName(rs.getString("name"));
         jobseeker.setPhone_no(rs.getString("phone_no"));
         jobseeker.setDescription(rs.getString("description"));
+        jobseeker.setLast_password_change(rs.getTimestamp("last_password_change").toLocalDateTime());
         jobseeker.setCv_url(rs.getString("cv_url"));
 
         return jobseeker;
     };
 
     public List<JobSeeker> getAllJobSeekers() {
-        String sql = "SELECT user_id, email, password, name, phone_no, description, cv_url FROM job_seeker NATURAL JOIN user";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change, cv_url FROM job_seeker NATURAL JOIN user";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
@@ -39,7 +40,7 @@ public class JobSeekerRepository {
     }
 
     public JobSeeker findJobSeekersWithId(int user_id) {
-        String sql = "SELECT user_id, email, password, name, phone_no, description, cv_url FROM job_seeker NATURAL JOIN user WHERE user_id = ?";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change, cv_url FROM job_seeker NATURAL JOIN user WHERE user_id = ?";
 
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, user_id);

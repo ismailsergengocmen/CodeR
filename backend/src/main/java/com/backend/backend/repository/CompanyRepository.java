@@ -22,12 +22,13 @@ public class CompanyRepository {
         company.setName(rs.getString("name"));
         company.setPhone_no(rs.getString("phone_no"));
         company.setDescription(rs.getString("description"));
+        company.setLast_password_change(rs.getTimestamp("last_password_change").toLocalDateTime());
 
         return company;
     };
 
     public List<Company> getAllCompanies() {
-        String sql = "SELECT user_id, email, password, name, phone_no, description FROM company NATURAL JOIN user";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM company NATURAL JOIN user";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
@@ -37,7 +38,7 @@ public class CompanyRepository {
     }
 
     public Company findCompanyWithId(int user_id) {
-        String sql = "SELECT user_id, email, password, name, phone_no, description FROM company NATURAL JOIN user WHERE user_id = ?";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM company NATURAL JOIN user WHERE user_id = ?";
 
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, user_id);

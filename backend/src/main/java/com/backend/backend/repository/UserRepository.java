@@ -26,23 +26,21 @@ public class UserRepository {
         user.setName(rs.getString("name"));
         user.setPhone_no(rs.getString("phone_no"));
         user.setDescription(rs.getString("description"));
-        // System.out.println(rs.getTimestamp("last_password_change"));
-        // user.setLast_password_change(getLocalDate(rs, "last_password_change"));
-        // user.setLast_password_change(LocalDate.parse(rs.getString("last_password_change"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        user.setLast_password_change(rs.getTimestamp("last_password_change").toLocalDateTime());
 
         return user;
     };
 
     public List<User> getAllUsers() {
-        String sql = "SELECT user_id, email, password, name, phone_no, description FROM user";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM user";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
     public Integer addNewUser(User user) throws SQLException {
-        String sql = "INSERT INTO user (email, password, name, phone_no, description) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (email, password, name, phone_no, description, last_password_change) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
-            jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getName(), user.getPhone_no(), user.getDescription());
+            jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getName(), user.getPhone_no(), user.getDescription(), user.getLast_password_change());
             return jdbcTemplate.queryForObject("SELECT user_id FROM user WHERE email = ?", int.class, user.getEmail());
         } catch (Exception e) {
             throw new SQLException(e);
@@ -50,7 +48,7 @@ public class UserRepository {
     }
 
     public User findUserWithId(int user_id) {
-        String sql = "SELECT user_id, email, password, name, phone_no, description FROM user WHERE user_id = ?";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM user WHERE user_id = ?";
 
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, user_id);

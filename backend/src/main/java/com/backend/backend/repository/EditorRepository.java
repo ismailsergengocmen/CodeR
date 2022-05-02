@@ -22,13 +22,14 @@ public class EditorRepository {
         editor.setName(rs.getString("name"));
         editor.setPhone_no(rs.getString("phone_no"));
         editor.setDescription(rs.getString("description"));
+        editor.setLast_password_change(rs.getTimestamp("last_password_change").toLocalDateTime());
         editor.setFame_point(rs.getInt("fame_point"));
 
         return editor;
     };
 
     public List<Editor> getAllEditors() {
-        String sql = "SELECT user_id, email, password, name, phone_no, description, fame_point FROM editor NATURAL JOIN user";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change, fame_point FROM editor NATURAL JOIN user";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
@@ -38,7 +39,7 @@ public class EditorRepository {
     }
 
     public Editor findEditorWithId(int user_id) {
-        String sql = "SELECT user_id, email, password, name, phone_no, description, fame_point FROM editor NATURAL JOIN user WHERE user_id = ?";
+        String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change, fame_point FROM editor NATURAL JOIN user WHERE user_id = ?";
 
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, user_id);

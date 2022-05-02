@@ -1,17 +1,33 @@
 package com.backend.backend.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
-@Setter
 public class Challenge extends Question {
+    List<String> hints;
+    List<TestCase> test_cases;
 
     public Challenge() {}
 
-    public Challenge(int question_id, int user_id, LocalDateTime create_date, int question_difficulty, String question_title, String question_content) {
-        super(question_id, user_id, create_date, question_difficulty, question_title, question_content);
+    public Challenge(int question_id, int user_id, LocalDateTime create_date, int question_difficulty, String question_title, String question_content, List<String> question_category, List<String> hints, List<TestCase> test_cases) {
+        super(question_id, user_id, create_date, question_difficulty, question_title, question_content, question_category);
+        this.hints = hints;
+        this.test_cases = test_cases;
+    }
+
+    public List<String> getHints() {
+        return hints;
+    }
+
+    public void setHints(List<String> hints) {
+        this.hints = hints;
+    }
+
+    public List<TestCase> getTest_cases() {
+        return test_cases;
+    }
+
+    public void setTest_cases(List<TestCase> test_cases) {
+        this.test_cases = test_cases;
     }
 }
