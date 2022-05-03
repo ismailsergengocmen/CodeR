@@ -6,20 +6,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Contest {
-    private int contest_id;
-    private int user_id; // editor_id
+    private Integer contest_id;
+    private Integer user_id; // editor_id
     private String contest_name;
     private String description;
     private LocalDateTime start_time;
-    private int duration; // TO DO This might need a revision
+    private Integer duration; // TO DO This might need a revision
     private LocalDateTime create_date;
     private List<String> category;
+    private List<BasicQuestion> contest_questions;
     private List<Integer> question_ids;
     private List<Sponsor> sponsors;
 
     public Contest() {}
 
-    public Contest(int contest_id, int user_id, String contest_name, String description, LocalDateTime start_time, int duration, LocalDateTime create_date, List<String> category, List<Integer> question_ids, List<Sponsor> sponsors) {
+    public Contest(int contest_id, int user_id, String contest_name, String description, LocalDateTime start_time, int duration, LocalDateTime create_date, List<String> category, List<BasicQuestion> contest_questions, List<Integer> question_ids, List<Sponsor> sponsors) {
         this.contest_id = contest_id;
         this.user_id = user_id;
         this.contest_name = contest_name;
@@ -28,6 +29,7 @@ public class Contest {
         this.duration = duration;
         this.create_date = create_date;
         this.category = category;
+        this.contest_questions = contest_questions;
         this.question_ids = question_ids;
         this.sponsors = sponsors;
     }
@@ -40,7 +42,7 @@ public class Contest {
         this.contest_id = contest_id;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
@@ -72,7 +74,7 @@ public class Contest {
         this.start_time = start_time;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
@@ -96,12 +98,12 @@ public class Contest {
         this.category = category;
     }
 
-    public List<Integer> getQuestion_ids() {
-        return question_ids;
+    public List<BasicQuestion> getContest_questions() {
+        return contest_questions;
     }
 
-    public void setQuestion_ids(List<Integer> question_ids) {
-        this.question_ids = question_ids;
+    public void setContest_questions(List<BasicQuestion> contest_questions) {
+        this.contest_questions = contest_questions;
     }
 
     public List<Sponsor> getSponsors() {
@@ -110,5 +112,13 @@ public class Contest {
 
     public void setSponsors(List<Sponsor> sponsors) {
         this.sponsors = sponsors;
+    }
+
+    public List<Integer> getQuestion_ids() {
+        return question_ids;
+    }
+
+    public void setQuestion_ids(List<Integer> question_ids) {
+        this.question_ids = question_ids;
     }
 }

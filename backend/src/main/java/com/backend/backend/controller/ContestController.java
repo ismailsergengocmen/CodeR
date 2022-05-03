@@ -38,7 +38,7 @@ public class ContestController {
         return contestRepository.addParticipant(contestParticipant.getUser_id(), contestParticipant.getContest_id());
     }
 
-    @PutMapping("update") // This need changes like do not delete the rows when some parts are not updated.
+    @PutMapping("update")
     public Boolean updateContest(@RequestBody Contest contest) {
         return contestRepository.updateContest(contest);
     }

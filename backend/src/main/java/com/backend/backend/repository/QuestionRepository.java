@@ -45,6 +45,7 @@ public class QuestionRepository {
 
     RowMapper<TestCase> testCaseMapper = (rs, rowNum) -> {
         TestCase testCase = new TestCase();
+        testCase.setQuestion_id(rs.getInt("question_id"));
         testCase.setTest_case_id(rs.getInt("test_case_id"));
         testCase.setInput(rs.getString("input"));
         testCase.setOutput(rs.getString("output"));
@@ -130,7 +131,7 @@ public class QuestionRepository {
             challenge.setHints(hints);
 
             // Add the test cases
-            sql = "SELECT test_case_id, input, output, testcase_type FROM test_case WHERE question_id = " + question_id;
+            sql = "SELECT question_id, test_case_id, input, output, testcase_type FROM test_case WHERE question_id = " + question_id;
             List<TestCase> testCases = jdbcTemplate.query(sql, testCaseMapper);
             challenge.setTest_cases(testCases);
 
@@ -248,7 +249,7 @@ public class QuestionRepository {
             if (all_items_map.containsKey(i.getInt_part())) {
                 all_items_map.get(i.getInt_part()).add(i.getString_part());
             } else {
-                all_items_map.put(i.getInt_part(), new ArrayList<String>());
+                all_items_map.put(i.getInt_part(), new ArrayList<>());
                 all_items_map.get(i.getInt_part()).add(i.getString_part());
             }
         }

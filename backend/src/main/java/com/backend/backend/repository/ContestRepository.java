@@ -1,5 +1,6 @@
 package com.backend.backend.repository;
 
+import com.backend.backend.entity.BasicQuestion;
 import com.backend.backend.entity.Contest;
 import com.backend.backend.util.Sponsor;
 import com.backend.backend.util.IntWithString;
@@ -60,6 +61,16 @@ public class ContestRepository {
         return sponsor;
     };
 
+    RowMapper<BasicQuestion> basicQuestionMapper = (rs, rowNum) -> {
+        BasicQuestion question = new BasicQuestion();
+        question.setQuestion_id(rs.getInt("question_id"));
+        question.setUser_id(rs.getInt("user_id"));
+        question.setQuestion_difficulty(rs.getInt("question_difficulty"));
+        question.setQuestion_title(rs.getString("question_title"));
+
+        return question;
+    };
+
     public List<Contest> getAllContests() {
         String sql = "SELECT contest_id, user_id, contest_name, description, start_time, duration, create_date FROM contest";
         List<Contest> contestList = jdbcTemplate.query(sql, contestMapper);
@@ -85,9 +96,13 @@ public class ContestRepository {
              contest.setCategory(categories);
 
              // Add the contest questions
+             sql = "SELECT question_id, user_id, question_difficulty, question_title FROM contest_has_question NATURAL JOIN question WHERE contest_id = ?";
+             List<BasicQuestion> questions = jdbcTemplate.query(sql, basicQuestionMapper, contest_id);
+             contest.setContest_questions(questions);
+
              sql = "SELECT question_id FROM contest_has_question WHERE contest_id = ?";
-             List<Integer> questions = jdbcTemplate.query(sql, intMapper, contest_id);
-             contest.setQuestion_ids(questions);
+             List<Integer> question_ids = jdbcTemplate.query(sql, intMapper, contest_id);
+             contest.setQuestion_ids(question_ids);
 
              // Add the contests sponsors
              sql = "SELECT user_id, money FROM sponsor WHERE contest_id = ?";
@@ -96,6 +111,7 @@ public class ContestRepository {
 
              return contest;
          } catch (EmptyResultDataAccessException e) {
+             System.out.println(e.getMessage());
              return null;
          }
     }
@@ -146,35 +162,68 @@ public class ContestRepository {
 
     public Boolean updateContest(Contest contest) {
         try {
-            // Insert into contest table
-            String sql = "UPDATE contest SET user_id = ?, contest_name = ?, description = ?, start_time = ?, duration = ? WHERE contest_id = ?";
-            jdbcTemplate.update(sql, contest.getUser_id(), contest.getContest_name(), contest.getDescription(), contest.getStart_time(), contest.getDuration(), contest.getContest_id());
+            String sql = "SELECT user_id, contest_id, contest_name, description, start_time, duration, create_date FROM contest WHERE contest_id = ?";
+            System.out.println(contest.getContest_id());
+            Contest currentContest = jdbcTemplate.queryForObject(sql, contestMapper, contest.getContest_id());
 
-            // Delete the old categories and insert the new categories into contest_category table
-            sql = "DELETE FROM contest_category WHERE contest_id = ?";
-            jdbcTemplate.update(sql, contest.getContest_id());
+            Contest updatedContest = new Contest();
+            updatedContest.setContest_id(contest.getContest_id());
+            updatedContest.setUser_id(currentContest.getUser_id());
+            updatedContest.setContest_name(currentContest.getContest_name());
+            updatedContest.setDescription(currentContest.getDescription());
+            updatedContest.setStart_time(currentContest.getStart_time());
+            updatedContest.setDuration(currentContest.getDuration());
 
-            sql = "INSERT INTO contest_category (contest_id, category) VALUES (?, ?)";
-            for (String category: contest.getCategory()) {
-                jdbcTemplate.update(sql, contest.getContest_id(), category);
+            if (contest.getUser_id() != null) {
+                updatedContest.setUser_id(contest.getUser_id());
+            }
+            if(contest.getContest_name() != null) {
+                updatedContest.setContest_name(contest.getContest_name());
+            }
+            if (contest.getDescription() != null) {
+                updatedContest.setDescription(contest.getDescription());
+            }
+            if (contest.getStart_time() != null) {
+                updatedContest.setStart_time(contest.getStart_time());
+            }
+            if (contest.getDuration() != null) {
+                updatedContest.setDuration(contest.getDuration());
             }
 
-            // Delete the old questions and insert the new questions into contest_has_question table
-            sql = "DELETE FROM contest_has_question WHERE contest_id = ?";
-            jdbcTemplate.update(sql, contest.getContest_id());
+            // Update the contest table
+            sql = "UPDATE contest SET user_id = ?, contest_name = ?, description = ?, start_time = ?, duration = ? WHERE contest_id = ?";
+            jdbcTemplate.update(sql, updatedContest.getUser_id(), updatedContest.getContest_name(), updatedContest.getDescription(), updatedContest.getStart_time(), updatedContest.getDuration(), updatedContest.getContest_id());
 
-            sql = "INSERT INTO contest_has_question (contest_id, question_id) VALUES (?, ?)";
-            for(Integer question_id: contest.getQuestion_ids()) {
-                jdbcTemplate.update(sql, contest.getContest_id(), question_id);
+            if (contest.getCategory() != null) {
+                // Delete the old categories and insert the new categories into contest_category table
+                sql = "DELETE FROM contest_category WHERE contest_id = ?";
+                jdbcTemplate.update(sql, contest.getContest_id());
+
+                sql = "INSERT INTO contest_category (contest_id, category) VALUES (?, ?)";
+                for (String category: contest.getCategory()) {
+                    jdbcTemplate.update(sql, contest.getContest_id(), category);
+                }
+            }
+            if (contest.getQuestion_ids() != null) {
+                // Delete the old questions and insert the new questions into contest_has_question table
+                sql = "DELETE FROM contest_has_question WHERE contest_id = ?";
+                jdbcTemplate.update(sql, contest.getContest_id());
+
+                sql = "INSERT INTO contest_has_question (contest_id, question_id) VALUES (?, ?)";
+                for(Integer question_id: contest.getQuestion_ids()) {
+                    jdbcTemplate.update(sql, contest.getContest_id(), question_id);
+                }
             }
 
-            // Delete the old sponsors and insert the new sponsors into sponsor table
-            sql = "DELETE FROM sponsor WHERE contest_id = ?";
-            jdbcTemplate.update(sql, contest.getContest_id());
+            if (contest.getSponsors() != null) {
+                // Delete the old sponsors and insert the new sponsors into sponsor table
+                sql = "DELETE FROM sponsor WHERE contest_id = ?";
+                jdbcTemplate.update(sql, contest.getContest_id());
 
-            sql = "INSERT INTO sponsor (user_id, contest_id, money) VALUES (?, ?, ?)";
-            for(Sponsor sponsor: contest.getSponsors()) {
-                jdbcTemplate.update(sql, sponsor.getUser_id(), contest.getContest_id(), sponsor.getMoney());
+                sql = "INSERT INTO sponsor (user_id, contest_id, money) VALUES (?, ?, ?)";
+                for(Sponsor sponsor: contest.getSponsors()) {
+                    jdbcTemplate.update(sql, sponsor.getUser_id(), contest.getContest_id(), sponsor.getMoney());
+                }
             }
 
             return true;
