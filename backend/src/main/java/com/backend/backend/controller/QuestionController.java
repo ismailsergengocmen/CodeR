@@ -19,8 +19,8 @@ public class QuestionController {
     QuestionRepository questionRepository;
 
     @GetMapping("all")
-    public List<Question> getAllQuestions() {
-        return questionRepository.getAllQuestions();
+    public List<Question> getAllQuestions(@RequestParam(required = false) List<String> category) {
+        return questionRepository.getAllQuestions(category);
     }
 
     @GetMapping("{question_id}")

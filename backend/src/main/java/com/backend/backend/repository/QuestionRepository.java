@@ -2,6 +2,7 @@ package com.backend.backend.repository;
 
 import com.backend.backend.entity.*;
 import com.backend.backend.util.IntWithString;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -74,9 +75,39 @@ public class QuestionRepository {
         return nonCodingQuestion;
     };
 
-    public List<Question> getAllQuestions() {
-        String sql = "SELECT question_id, user_id, create_date, question_difficulty, question_title, question_content FROM question";
-        List<Question> questionList = jdbcTemplate.query(sql, questionRowMapper);
+    public List<Question> getAllQuestions(List<String> category) {
+        String sql = "SELECT question_id FROM question";
+        List<Object> ids = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getInt("question_id"));
+        List<Question> questionList;
+
+        if (category != null) {
+            for (String s : category) {
+                sql = "SELECT question_id FROM question NATURAL JOIN question_category WHERE category = ?";
+                String questionMarks = StringUtils.repeat("?", ", ", ids.size());
+                String tempSQL = sql + " AND question_id IN (" + questionMarks + ")";
+
+                ids.add(0, s);
+                Object[] paramArray = ids.toArray();
+                ids = jdbcTemplate.query(tempSQL, (rs, rowNum) -> rs.getInt("question_id"), paramArray);
+
+                // To prevent the next iterations since there is no question with all the previous categories
+                if (ids.size() == 0) {
+                    break;
+                }
+            }
+
+            if (ids.size() == 0) {
+                return new ArrayList<>();
+            } else {
+                sql = "SELECT question_id, user_id, create_date, question_difficulty, question_title, question_content FROM question WHERE question_id IN ";
+                sql = sql + "(" + StringUtils.repeat("?", ", ", ids.size()) + ")";
+                questionList = jdbcTemplate.query(sql, questionRowMapper, ids.toArray());
+            }
+        }
+        else {
+          sql = "SELECT question_id, user_id, create_date, question_difficulty, question_title, question_content FROM question";
+          questionList = jdbcTemplate.query(sql, questionRowMapper);
+        }
 
         // Find all question's categories and put them into a hashmap
         HashMap<Integer, List<String>> categories = categoryMapper("question");
