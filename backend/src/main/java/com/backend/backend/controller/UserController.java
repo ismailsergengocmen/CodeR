@@ -27,12 +27,17 @@ public class UserController {
     }
 
     @PostMapping("all")
-    public boolean addNewUser(@RequestBody User user) {
+    public Boolean addNewUser(@RequestBody User user) {
         try {
             userRepository.addNewUser(user);
             return true;
         } catch(SQLException e) {
             return false;
         }
+    }
+
+    @PutMapping("update")
+    public Boolean updateUser(@RequestBody User user) {
+        return userRepository.updateUser(user);
     }
 }

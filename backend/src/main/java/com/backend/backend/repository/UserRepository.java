@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    RowMapper<User> rowMapper = (rs, rowNum) -> {
+    RowMapper<User> userMapper = (rs, rowNum) -> {
         User user = new User();
         user.setUser_id(rs.getInt("user_id"));
         user.setEmail(rs.getString("email"));
@@ -33,7 +34,7 @@ public class UserRepository {
 
     public List<User> getAllUsers() {
         String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM user";
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, userMapper);
     }
 
     public Integer addNewUser(User user) throws SQLException {
@@ -51,7 +52,7 @@ public class UserRepository {
         String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM user WHERE user_id = ?";
 
         try {
-            return jdbcTemplate.queryForObject(sql, rowMapper, user_id);
+            return jdbcTemplate.queryForObject(sql, userMapper, user_id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -73,6 +74,37 @@ public class UserRepository {
         }
         catch (EmptyResultDataAccessException e) {
             return null;
+        }
+    }
+
+    public Boolean updateUser(User user) {
+        try {
+            String sql = "SELECT user_id, email, password, name, phone_no, description, last_password_change FROM user WHERE user_id = ?";
+            User currentUser = jdbcTemplate.queryForObject(sql, userMapper, user.getUser_id());
+
+            sql = "UPDATE user SET email = ?, password = ?, name = ?, phone_no = ?, description = ?, last_password_change = ? WHERE user_id = ?";
+            User updatedUser = new User(currentUser.getUser_id(), currentUser.getEmail(), currentUser.getPassword(), currentUser.getName(), currentUser.getPhone_no(), currentUser.getDescription(), currentUser.getLast_password_change());
+
+            if (user.getPassword()!= null && !BCrypt.verifyer().verify(user.getPassword().toCharArray(), currentUser.getPassword()).verified) {
+                String hashedPassword = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
+                updatedUser.setPassword(hashedPassword);
+                updatedUser.setLast_password_change(LocalDateTime.now().withNano(0));
+            }
+            if (user.getName() != null && !user.getName().equals(currentUser.getName())) {
+                updatedUser.setName(user.getName());
+            }
+            if(user.getPhone_no() != null && !user.getPhone_no().equals(currentUser.getPhone_no())) {
+                updatedUser.setPhone_no(user.getPhone_no());
+            }
+            if(user.getDescription() != null && !user.getDescription().equals(currentUser.getDescription())) {
+                updatedUser.setDescription(user.getDescription());
+            }
+            jdbcTemplate.update(sql, updatedUser.getEmail(), updatedUser.getPassword(), updatedUser.getName(), updatedUser.getPhone_no(), updatedUser.getDescription(), updatedUser.getLast_password_change(), updatedUser.getUser_id());
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 }
