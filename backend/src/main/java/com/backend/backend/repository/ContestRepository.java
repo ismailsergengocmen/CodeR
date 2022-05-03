@@ -44,14 +44,6 @@ public class ContestRepository {
     RowMapper<String> stringMapper = (rs, rowNum) -> rs.getString(1);
     RowMapper<Integer> intMapper = (rs, rowNum) -> rs.getInt(1);
 
-    RowMapper<Sponsor> basicSponsorMapper = (rs, rowNum) -> {
-        Sponsor sponsor = new Sponsor();
-        sponsor.setUser_id(rs.getInt("user_id"));
-        sponsor.setMoney(rs.getInt("money"));
-
-        return sponsor;
-    };
-
     RowMapper<Sponsor> sponsorMapper = (rs, rowNum) -> {
         Sponsor sponsor = new Sponsor();
         sponsor.setContest_id(rs.getInt("contest_id"));
@@ -105,8 +97,8 @@ public class ContestRepository {
              contest.setQuestion_ids(question_ids);
 
              // Add the contests sponsors
-             sql = "SELECT user_id, money FROM sponsor WHERE contest_id = ?";
-             List<Sponsor> sponsors = jdbcTemplate.query(sql, basicSponsorMapper, contest_id);
+             sql = "SELECT contest_id, user_id, money FROM sponsor WHERE contest_id = ?";
+             List<Sponsor> sponsors = jdbcTemplate.query(sql, sponsorMapper, contest_id);
              contest.setSponsors(sponsors);
 
              return contest;
