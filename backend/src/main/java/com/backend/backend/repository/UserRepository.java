@@ -61,7 +61,7 @@ public class UserRepository {
         String sql = "SELECT user_id, password FROM user WHERE email = ?";
 
         try {
-            Map<String, Object> result = jdbcTemplate.queryForMap(sql, new Object[] {user.getEmail()});
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, user.getEmail());
             Integer user_id = (Integer) result.get("user_id");
             String hashed_password = (String) result.get("password");
 

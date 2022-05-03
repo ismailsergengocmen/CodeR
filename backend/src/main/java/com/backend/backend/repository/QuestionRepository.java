@@ -169,7 +169,7 @@ public class QuestionRepository {
          }
     }
 
-    public Integer addChallenge(Challenge challenge) throws SQLException {
+    public Integer createChallenge(Challenge challenge) throws SQLException {
         try {
             // Insert the question into question table
             String sql = "INSERT INTO question (user_id, create_date, question_difficulty, question_title, question_content) VALUES (?, ?, ?, ?, ?)";
@@ -206,7 +206,7 @@ public class QuestionRepository {
         }
     }
 
-    public Integer addNonCodingQuestion(NonCodingQuestion nonCodingQuestion) throws SQLException {
+    public Integer createNonCodingQuestion(NonCodingQuestion nonCodingQuestion) throws SQLException {
         try {
             // Insert the question into question table
             String sql = "INSERT INTO question (user_id, create_date, question_difficulty, question_title, question_content) VALUES (?, ?, ?, ?, ?)";

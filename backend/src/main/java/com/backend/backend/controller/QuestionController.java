@@ -39,11 +39,11 @@ public class QuestionController {
     }
 
     @PostMapping("challenge")
-    public Integer addChallenge(@RequestBody Challenge challenge) {
+    public Integer createChallenge(@RequestBody Challenge challenge) {
         challenge.setCreate_date(LocalDateTime.now().withNano(0));
 
         try {
-            return questionRepository.addChallenge(challenge);
+            return questionRepository.createChallenge(challenge);
         } catch (SQLException e) {
             return null;
         }
@@ -60,11 +60,11 @@ public class QuestionController {
     }
 
     @PostMapping("noncoding")
-    public Integer addNonCodingQuestion(@RequestBody NonCodingQuestion nonCodingQuestion) {
+    public Integer createNonCodingQuestion(@RequestBody NonCodingQuestion nonCodingQuestion) {
         nonCodingQuestion.setCreate_date(LocalDateTime.now().withNano(0));
 
         try {
-            return questionRepository.addNonCodingQuestion(nonCodingQuestion);
+            return questionRepository.createNonCodingQuestion(nonCodingQuestion);
         } catch (SQLException e) {
             return null;
         }
