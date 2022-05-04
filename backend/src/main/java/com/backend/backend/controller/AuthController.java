@@ -6,7 +6,7 @@ import com.backend.backend.repository.CompanyRepository;
 import com.backend.backend.repository.EditorRepository;
 import com.backend.backend.repository.JobSeekerRepository;
 import com.backend.backend.repository.UserRepository;
-import com.backend.backend.util.TypedUser;
+import com.backend.backend.entity.TypedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
