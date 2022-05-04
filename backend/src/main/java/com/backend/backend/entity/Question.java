@@ -10,7 +10,7 @@ public class Question extends BasicQuestion {
 
     public Question() {}
 
-    public Question(int question_id, int user_id, int question_difficulty, String question_title, LocalDateTime create_date, String question_content, List<String> question_category) {
+    public Question(Integer question_id, Integer user_id, Integer question_difficulty, String question_title, LocalDateTime create_date, String question_content, List<String> question_category) {
         super(question_id, user_id, question_difficulty, question_title);
         this.create_date = create_date;
         this.question_content = question_content;

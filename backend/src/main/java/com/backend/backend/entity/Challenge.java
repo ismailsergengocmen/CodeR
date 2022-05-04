@@ -9,7 +9,7 @@ public class Challenge extends Question {
 
     public Challenge() {}
 
-    public Challenge(int question_id, int user_id, int question_difficulty, String question_title, LocalDateTime create_date, String question_content, List<String> question_category, List<String> hints, List<TestCase> test_cases) {
+    public Challenge(Integer question_id, Integer user_id, Integer question_difficulty, String question_title, LocalDateTime create_date, String question_content, List<String> question_category, List<String> hints, List<TestCase> test_cases) {
         super(question_id, user_id, question_difficulty, question_title, create_date, question_content, question_category);
         this.hints = hints;
         this.test_cases = test_cases;

@@ -7,7 +7,7 @@ public class JobSeeker extends User {
 
     public JobSeeker() {}
 
-    public JobSeeker(int userid, String email, String password, String name, String phone_no, String description, String cv_url, LocalDateTime last_password_change) {
+    public JobSeeker(Integer userid, String email, String password, String name, String phone_no, String description, String cv_url, LocalDateTime last_password_change) {
         super(userid, email, password, name, phone_no, description, last_password_change);
         this.cv_url = cv_url;
     }

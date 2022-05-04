@@ -9,7 +9,7 @@ public class TypedUser extends User {
 
     public TypedUser() {}
 
-    public TypedUser(int user_id, String email, String password, String name, String phone_no, String description, LocalDateTime last_password_change, String type) {
+    public TypedUser(Integer user_id, String email, String password, String name, String phone_no, String description, LocalDateTime last_password_change, String type) {
         super(user_id, email, password, name, phone_no, description, last_password_change);
         this.type = type;
     }

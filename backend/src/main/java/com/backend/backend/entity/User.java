@@ -3,7 +3,7 @@ package com.backend.backend.entity;
 import java.time.LocalDateTime;
 
 public class User {
-    private int user_id;
+    private Integer user_id;
     private String email;
     private String password;
     private String name;
@@ -13,7 +13,7 @@ public class User {
 
     public User() {}
 
-    public User(int user_id, String email, String password, String name, String phone_no, String description, LocalDateTime last_password_change) {
+    public User(Integer user_id, String email, String password, String name, String phone_no, String description, LocalDateTime last_password_change) {
         this.user_id = user_id;
         this.email = email;
         this.password = password;
@@ -23,11 +23,11 @@ public class User {
         this.last_password_change = last_password_change;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 

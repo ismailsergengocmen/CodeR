@@ -20,7 +20,7 @@ public class Contest {
 
     public Contest() {}
 
-    public Contest(int contest_id, int user_id, String contest_name, String description, LocalDateTime start_time, int duration, LocalDateTime create_date, List<String> category, List<BasicQuestion> contest_questions, List<Integer> question_ids, List<Sponsor> sponsors) {
+    public Contest(Integer contest_id, Integer user_id, String contest_name, String description, LocalDateTime start_time, Integer duration, LocalDateTime create_date, List<String> category, List<BasicQuestion> contest_questions, List<Integer> question_ids, List<Sponsor> sponsors) {
         this.contest_id = contest_id;
         this.user_id = user_id;
         this.contest_name = contest_name;
@@ -34,11 +34,11 @@ public class Contest {
         this.sponsors = sponsors;
     }
 
-    public int getContest_id() {
+    public Integer getContest_id() {
         return contest_id;
     }
 
-    public void setContest_id(int contest_id) {
+    public void setContest_id(Integer contest_id) {
         this.contest_id = contest_id;
     }
 
@@ -46,7 +46,7 @@ public class Contest {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
@@ -78,7 +78,7 @@ public class Contest {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
