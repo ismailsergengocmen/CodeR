@@ -75,12 +75,15 @@ public class QuestionRepository {
         return nonCodingQuestion;
     };
 
-    public List<Question> getAllQuestions(List<String> category) {
+    public List<Question> getAllQuestions(List<String> category, List<Integer> difficulty) {
         String sql = "SELECT question_id FROM question";
         List<Object> ids = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getInt("question_id"));
         List<Question> questionList;
 
+        // Check if there is any category limitation
         if (category != null) {
+            // For each category, first find the questions that have that category and apply the other categories to those questions.
+            // Repeat this until there is no more question or categories.
             for (String s : category) {
                 sql = "SELECT question_id FROM question NATURAL JOIN question_category WHERE category = ?";
                 String questionMarks = StringUtils.repeat("?", ", ", ids.size());
@@ -101,16 +104,31 @@ public class QuestionRepository {
             } else {
                 sql = "SELECT question_id, user_id, create_date, question_difficulty, question_title, question_content FROM question WHERE question_id IN ";
                 sql = sql + "(" + StringUtils.repeat("?", ", ", ids.size()) + ")";
+
+                // Check if there is any difficulty filter
+                if(difficulty != null) {
+                    sql = sql + " AND question_difficulty IN (" + StringUtils.repeat("?", ", ", difficulty.size()) + ")";
+                    ids.addAll(difficulty);
+                }
                 questionList = jdbcTemplate.query(sql, questionRowMapper, ids.toArray());
             }
         }
         else {
           sql = "SELECT question_id, user_id, create_date, question_difficulty, question_title, question_content FROM question";
-          questionList = jdbcTemplate.query(sql, questionRowMapper);
+
+          // Check if there is any difficulty filter
+          if (difficulty != null) {
+              sql = sql + " WHERE question_difficulty IN (" + StringUtils.repeat("?", ", ", difficulty.size()) + ")";
+              questionList = jdbcTemplate.query(sql, questionRowMapper, difficulty.toArray());
+          } else {
+              questionList = jdbcTemplate.query(sql, questionRowMapper);
+          }
         }
 
         // Find all question's categories and put them into a hashmap
         HashMap<Integer, List<String>> categories = categoryMapper("question");
+
+        // For the questionList derived after filtering categories and difficulty, add all of their categories
         for (Question q: questionList) {
             q.setQuestion_category(categories.get(q.getQuestion_id()));
         }
