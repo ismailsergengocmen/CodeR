@@ -28,4 +28,9 @@ public class JobSeekerController {
     public void addNewJobSeeker(@RequestBody int user_id) {
         jobSeekerRepository.addNewJobSeeker(user_id);
     }
+
+    @PutMapping("update")
+    public Boolean updateCvUrl(@RequestBody JobSeeker jobSeeker) {
+        return jobSeekerRepository.updateCvUrl(jobSeeker);
+    }
 }

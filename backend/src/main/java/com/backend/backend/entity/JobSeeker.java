@@ -1,8 +1,5 @@
 package com.backend.backend.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 public class JobSeeker extends User {

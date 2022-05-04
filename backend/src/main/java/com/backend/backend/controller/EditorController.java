@@ -29,4 +29,9 @@ public class EditorController {
         editorRepository.addNewEditor(user_id);
     }
 
+    @PutMapping("update")
+    public Boolean updateFamePoint(@RequestBody Editor editor) {
+        return editorRepository.updateFamePoint(editor);
+    }
+
 }

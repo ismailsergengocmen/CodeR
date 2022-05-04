@@ -155,7 +155,6 @@ public class ContestRepository {
     public Boolean updateContest(Contest contest) {
         try {
             String sql = "SELECT user_id, contest_id, contest_name, description, start_time, duration, create_date FROM contest WHERE contest_id = ?";
-            System.out.println(contest.getContest_id());
             Contest currentContest = jdbcTemplate.queryForObject(sql, contestMapper, contest.getContest_id());
 
             Contest updatedContest = new Contest();

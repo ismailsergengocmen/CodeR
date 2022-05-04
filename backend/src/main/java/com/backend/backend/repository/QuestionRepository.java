@@ -281,6 +281,107 @@ public class QuestionRepository {
         }
     }
 
+    public void updateQuestion(Question question) throws SQLException {
+        try {
+            String sql = "SELECT question_id, user_id, create_date, question_difficulty, question_title, question_content FROM question WHERE question_id = ?";
+            Question currentQuestion = jdbcTemplate.queryForObject(sql, questionRowMapper, question.getQuestion_id());
+            Question updatedQuestion = new Question();
+            updatedQuestion.setQuestion_id(currentQuestion.getQuestion_id());
+            updatedQuestion.setUser_id(currentQuestion.getUser_id());
+            updatedQuestion.setQuestion_difficulty(currentQuestion.getQuestion_difficulty());
+            updatedQuestion.setQuestion_title(currentQuestion.getQuestion_title());
+            updatedQuestion.setQuestion_content(currentQuestion.getQuestion_content());
+
+            // If user_id, question_difficulty, question_title and question_content exists, update them accordingly
+            if (question.getUser_id() != null) {
+                updatedQuestion.setUser_id(question.getUser_id());
+            }
+            if (question.getQuestion_difficulty() != null) {
+                updatedQuestion.setQuestion_difficulty(question.getQuestion_difficulty());
+            }
+            if (question.getQuestion_title() != null) {
+                updatedQuestion.setQuestion_title(question.getQuestion_title());
+            }
+            if (question.getQuestion_content() != null) {
+                updatedQuestion.setQuestion_content(question.getQuestion_content());
+            }
+            sql = "UPDATE question SET user_id = ?, question_difficulty = ?, question_title = ?, question_content = ? WHERE question_id = ?";
+            jdbcTemplate.update(sql, updatedQuestion.getUser_id(), updatedQuestion.getQuestion_difficulty(), updatedQuestion.getQuestion_title(), updatedQuestion.getQuestion_content(), updatedQuestion.getQuestion_id());
+
+            // If question_category exists, update it accordingly
+            if (question.getQuestion_category() != null) {
+                sql = "DELETE FROM question_category WHERE question_id = ?";
+                jdbcTemplate.update(sql, question.getQuestion_id());
+
+                sql = "INSERT INTO question_category (question_id, category) VALUES (?, ?)";
+                for (String category: question.getQuestion_category()) {
+                    jdbcTemplate.update(sql, question.getQuestion_id(), category);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new SQLException(e);
+        }
+    }
+
+    public Boolean updateChallenge(Challenge challenge) {
+        try {
+            Question question = new Question();
+            question.setQuestion_id(challenge.getQuestion_id());
+            question.setUser_id(challenge.getUser_id());
+            question.setQuestion_difficulty(challenge.getQuestion_difficulty());
+            question.setQuestion_title(challenge.getQuestion_title());
+            question.setQuestion_content(challenge.getQuestion_content());
+            question.setQuestion_category(challenge.getQuestion_category());
+
+            updateQuestion(question);
+
+            // If hints exists, update it accordingly
+            if (challenge.getHints() != null) {
+                String sql =  "DELETE FROM challenge_hint WHERE question_id = ?";
+                jdbcTemplate.update(sql, challenge.getQuestion_id());
+
+                sql = "INSERT INTO challenge_hint (question_id, hint) VALUES (?, ?)";
+                for (String hint: challenge.getHints()) {
+                    jdbcTemplate.update(sql, challenge.getQuestion_id(), hint);
+                }
+            }
+            // If test_cases exists, update it accordingly
+            if (challenge.getTest_cases() != null) {
+                String sql = "DELETE FROM test_case WHERE question_id = ?";
+                jdbcTemplate.update(sql, challenge.getQuestion_id());
+
+                sql = "INSERT INTO test_case (question_id, input, output, testcase_type) VALUES (?, ?, ?, ?)";
+                for (TestCase testCase: challenge.getTest_cases()) {
+                    jdbcTemplate.update(sql, challenge.getQuestion_id(), testCase.getInput(), testCase.getOutput(), testCase.getTest_case_type());
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public Boolean updateNonCodingQuestion(NonCodingQuestion nonCodingQuestion) {
+        try {
+            Question question = new Question();
+            question.setQuestion_id(nonCodingQuestion.getQuestion_id());
+            question.setUser_id(nonCodingQuestion.getUser_id());
+            question.setQuestion_difficulty(nonCodingQuestion.getQuestion_difficulty());
+            question.setQuestion_title(nonCodingQuestion.getQuestion_title());
+            question.setQuestion_content(nonCodingQuestion.getQuestion_content());
+            question.setQuestion_category(nonCodingQuestion.getQuestion_category());
+
+            updateQuestion(question);
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public HashMap<Integer, List<String>> categoryMapper(String requester) {
         HashMap<Integer, List<String>> all_items_map = new HashMap<>();
         List<IntWithString> all_items_list;

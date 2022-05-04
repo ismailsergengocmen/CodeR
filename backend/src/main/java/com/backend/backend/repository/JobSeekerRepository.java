@@ -48,4 +48,16 @@ public class JobSeekerRepository {
             return null;
         }
     }
+
+    public Boolean updateCvUrl(JobSeeker jobSeeker) {
+        String sql = "UPDATE job_seeker SET cv_url = ? WHERE user_id = ?";
+
+        try {
+            jdbcTemplate.update(sql, jobSeeker.getCv_url(), jobSeeker.getUser_id());
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }

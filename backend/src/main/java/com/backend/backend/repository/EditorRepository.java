@@ -47,4 +47,16 @@ public class EditorRepository {
             return null;
         }
     }
+
+    public Boolean updateFamePoint(Editor editor) {
+        String sql = "UPDATE editor SET fame_point = ? WHERE user_id = ?";
+
+        try {
+            jdbcTemplate.update(sql, editor.getFame_point(), editor.getUser_id());
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }
