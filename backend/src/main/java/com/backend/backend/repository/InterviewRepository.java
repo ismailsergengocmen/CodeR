@@ -37,8 +37,12 @@ public class InterviewRepository {
 
     RowMapper<Integer> intMapper = (rs, rowNum) -> rs.getInt(1);
 
-    public List<Interview> getAllInterviews() {
+    public List<Interview> getAllInterviews(Integer company_id) {
         String sql = "SELECT interview_id, title, start_date, duration, create_date, user_id FROM interview";
+        if (company_id != null) {
+            sql += " WHERE user_id = ?";
+            return jdbcTemplate.query(sql, interviewMapper, company_id);
+        }
         return jdbcTemplate.query(sql, interviewMapper);
     }
 

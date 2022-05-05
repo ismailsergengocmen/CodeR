@@ -1,28 +1,26 @@
 package com.backend.backend.entity;
 
-
 import java.time.LocalDateTime;
-
+import java.util.List;
 
 public class Forum {
     private Integer forum_id;
     private Integer question_id; //Question
     private LocalDateTime create_date;
     private String title;
-    private BasicQuestion forum_question;
+    private List<Post> posts;
 
     public Forum() {}
 
-    public Forum(Integer forum_id, Integer question_id, LocalDateTime create_date, String title, BasicQuestion forum_question) {
+    public Forum(Integer forum_id, Integer question_id, LocalDateTime create_date, String title, List<Post> posts) {
         this.forum_id = forum_id;
         this.question_id = question_id;
         this.create_date = create_date;
         this.title = title;
-        this.forum_question = forum_question;
+        this.posts = posts;
     }
-    
-    
-    public Integer getForum_id(){
+
+    public Integer getForum_id() {
         return forum_id;
     }
 
@@ -30,7 +28,7 @@ public class Forum {
         this.forum_id = forum_id;
     }
 
-    public Integer getQuestion_id(){
+    public Integer getQuestion_id() {
         return question_id;
     }
 
@@ -54,14 +52,11 @@ public class Forum {
         this.title = title;
     }
 
-    public BasicQuestion getForum_question() {
-        return forum_question;
+    public List<Post> getPosts() {
+        return posts;
     }
 
-    public void setForum_question( BasicQuestion forum_question) {
-        this.forum_question = forum_question;
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
-
-    
-    
 }

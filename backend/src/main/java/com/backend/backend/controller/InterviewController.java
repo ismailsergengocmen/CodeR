@@ -18,8 +18,8 @@ public class InterviewController {
     InterviewRepository interviewRepository;
 
     @GetMapping("all")
-    public List<Interview> getAllInterviews() {
-        return interviewRepository.getAllInterviews();
+    public List<Interview> getAllInterviews(@RequestParam(required = false) Integer company_id) {
+        return interviewRepository.getAllInterviews(company_id);
     }
 
     @GetMapping("{interview_id}")
@@ -42,5 +42,4 @@ public class InterviewController {
     public Boolean updateContest(@RequestBody Interview interview) {
         return interviewRepository.updateInterview(interview);
     }
-
 }

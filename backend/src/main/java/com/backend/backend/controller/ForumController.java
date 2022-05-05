@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("api/v1/Forum")
+@RequestMapping("api/v1/forum")
 public class ForumController {
 
     @Autowired
@@ -31,10 +31,4 @@ public class ForumController {
         forum.setCreate_date(LocalDateTime.now().withNano(0));
         return forumRepository.createForum(forum);
     }
-
-    @PutMapping("update")
-    public Boolean updateForum(@RequestBody Forum forum) {
-        return forumRepository.updateForum(forum);
-    }
-
 }
