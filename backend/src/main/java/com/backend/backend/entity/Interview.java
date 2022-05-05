@@ -9,18 +9,19 @@ public class Interview {
     private String title;
     private LocalDateTime start_date;
     private Integer duration;
+    private LocalDateTime create_date;
     private Integer user_id; // company_id
     private List<BasicQuestion> interview_questions;
     private List<Integer> interview_question_ids;
 
-    public Interview() {
-    }
+    public Interview() {}
 
-    public Interview(Integer interview_id, String title, LocalDateTime start_date, Integer duration, Integer user_id, List<BasicQuestion> interview_questions, List<Integer> interview_question_ids) {
+    public Interview(Integer interview_id, String title, LocalDateTime start_date, Integer duration, LocalDateTime create_date, Integer user_id, List<BasicQuestion> interview_questions, List<Integer> interview_question_ids) {
         this.interview_id = interview_id;
         this.title = title;
         this.start_date = start_date;
         this.duration = duration;
+        this.create_date = create_date;
         this.user_id = user_id;
         this.interview_questions = interview_questions;
         this.interview_question_ids = interview_question_ids;
@@ -58,11 +59,19 @@ public class Interview {
         this.duration = duration;
     }
 
+    public LocalDateTime getCreate_date() {
+        return create_date;
+    }
+
+    public void setCreate_date(LocalDateTime create_date) {
+        this.create_date = create_date;
+    }
+
     public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
@@ -73,11 +82,12 @@ public class Interview {
     public void setInterview_questions(List<BasicQuestion> interview_questions) {
         this.interview_questions = interview_questions;
     }
-    public List<Integer> getQuestion_ids() {
+
+    public List<Integer> getInterview_question_ids() {
         return interview_question_ids;
     }
 
-    public void setQuestion_ids(List<Integer> interview_question_ids) {
+    public void setInterview_question_ids(List<Integer> interview_question_ids) {
         this.interview_question_ids = interview_question_ids;
     }
 }

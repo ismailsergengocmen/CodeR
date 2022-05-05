@@ -29,7 +29,7 @@ public class InterviewController {
 
     @PostMapping("create")
     public Integer createInterview(@RequestBody Interview interview) {
-        interview.setStart_date(LocalDateTime.now().withNano(0));
+        interview.setCreate_date(LocalDateTime.now().withNano(0));
         return interviewRepository.createInterview(interview);
     }
 
