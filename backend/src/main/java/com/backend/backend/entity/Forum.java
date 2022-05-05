@@ -1,23 +1,67 @@
 package com.backend.backend.entity;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+
 public class Forum {
-    private int forum_id;
-    private int question_id;
+    private Integer forum_id;
+    private Integer question_id; //Question
     private LocalDateTime create_date;
     private String title;
+    private BasicQuestion forum_question;
 
     public Forum() {}
 
-    public Forum(int forum_id, int question_id, LocalDateTime create_date, String title) {
+    public Forum(Integer forum_id, Integer question_id, LocalDateTime create_date, String title, BasicQuestion forum_question) {
         this.forum_id = forum_id;
         this.question_id = question_id;
         this.create_date = create_date;
         this.title = title;
+        this.forum_question = forum_question;
     }
+    
+    
+    public Integer getForum_id(){
+        return forum_id;
+    }
+
+    public void setForum_id(Integer forum_id) {
+        this.forum_id = forum_id;
+    }
+
+    public Integer getQuestion_id(){
+        return question_id;
+    }
+
+    public void setQuestion_id(Integer question_id) {
+        this.question_id = question_id;
+    }
+
+    public LocalDateTime getCreate_date() {
+        return create_date;
+    }
+
+    public void setCreate_date(LocalDateTime create_date) {
+        this.create_date = create_date;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public BasicQuestion getForum_question() {
+        return forum_question;
+    }
+
+    public void setForum_question( BasicQuestion forum_question) {
+        this.forum_question = forum_question;
+    }
+
+    
+    
 }

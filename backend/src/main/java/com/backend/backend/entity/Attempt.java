@@ -3,14 +3,14 @@ package com.backend.backend.entity;
 import java.time.LocalDateTime;
 
 public class Attempt {
-    private int attempt_id;
+    private Integer attempt_id;
     private LocalDateTime attempt_start;
     private LocalDateTime attempt_end;
-    private int point;
+    private Integer point;
 
     public Attempt() {}
 
-    public Attempt(int attempt_id, LocalDateTime attempt_start, LocalDateTime attempt_end, int point) {
+    public Attempt(Integer attempt_id, LocalDateTime attempt_start, LocalDateTime attempt_end, Integer point) {
         this.attempt_id = attempt_id;
         this.attempt_start = attempt_start;
         this.attempt_end = attempt_end;
@@ -21,7 +21,7 @@ public class Attempt {
         return attempt_id;
     }
 
-    public void setAttempt_id(int attempt_id) {
+    public void setAttempt_id(Integer attempt_id) {
         this.attempt_id = attempt_id;
     }
 
@@ -41,11 +41,11 @@ public class Attempt {
         this.attempt_end = attempt_end;
     }
 
-    public int getPoint() {
+    public Integer getPoint() {
         return point;
     }
 
-    public void setPoint(int point) {
+    public void setPoint(Integer point) {
         this.point = point;
     }
 }
