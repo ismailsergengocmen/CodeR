@@ -2,6 +2,7 @@ package com.backend.backend.controller;
 
 import com.backend.backend.entity.Contest;
 import com.backend.backend.repository.ContestRepository;
+import com.backend.backend.repository.LeaderboardUser;
 import com.backend.backend.util.ContestParticipant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +44,8 @@ public class ContestController {
         return contestRepository.updateContest(contest);
     }
 
+    @GetMapping("leaderboard/{contest_id}")
+    public List<LeaderboardUser> getLeaderboard(@PathVariable Integer contest_id) {
+        return contestRepository.getLeaderboard(contest_id);
+    }
 }
