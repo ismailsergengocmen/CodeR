@@ -1,18 +1,20 @@
 package com.backend.backend.repository;
 
+import com.backend.backend.entity.Attempt;
 import com.backend.backend.entity.BasicQuestion;
 import com.backend.backend.entity.Contest;
 import com.backend.backend.util.Sponsor;
 import com.backend.backend.util.IntWithString;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class ContestRepository {
@@ -61,6 +63,16 @@ public class ContestRepository {
         question.setQuestion_title(rs.getString("question_title"));
 
         return question;
+    };
+
+    RowMapper<Attempt> basicAttemptMapper = (rs, rowNum) -> {
+        Attempt attempt = new Attempt();
+        attempt.setAttempt_id(rs.getInt("attempt_id"));
+        attempt.setUser_id(rs.getInt("user_id"));
+        attempt.setPoint(rs.getInt("point"));
+        attempt.setAttempt_end(rs.getTimestamp("attempt_end").toLocalDateTime());
+
+        return attempt;
     };
 
     public List<Contest> getAllContests() {
@@ -260,4 +272,68 @@ public class ContestRepository {
         return all_items_map;
     }
 
+    public List<LeaderboardUser> getLeaderboard(Integer contest_id) {
+        try {
+            // Get the contest question_ids
+            String sql = "SELECT question_id FROM contest_has_question WHERE contest_id = ?";
+            List<Integer> question_ids = jdbcTemplate.query(sql, intMapper, contest_id);
+
+            // Get the contest participant_ids
+            sql = "SELECT user_id FROM enter_contest WHERE contest_id = ?";
+            List<Integer> participant_ids = jdbcTemplate.query(sql, intMapper, contest_id);
+
+            sql = "SELECT create_date FROM contest WHERE contest_id = ?";
+            LocalDateTime contest_create_date = jdbcTemplate.queryForObject(sql, LocalDateTime.class, contest_id);
+
+            // user1 -> [LeaderBoardUser1, LeaderBoardUser2, LeaderBoardUser3,...(for each question)]
+            HashMap<Integer, List<LeaderboardUser>> user_attempt_map = new HashMap<>();
+
+            for (Integer participant_id: participant_ids) {
+                for (Integer question_id: question_ids) {
+                    sql = "SELECT attempt_id, user_id, point, attempt_end FROM attempt NATURAL JOIN solve_coding NATURAL JOIN coding_attempt WHERE user_id = ? AND question_id = ?";
+                    List<Attempt> attempts = jdbcTemplate.query(sql, basicAttemptMapper, participant_id, question_id);
+
+                    sql = "SELECT name FROM user WHERE user_id = ?";
+                    String name = jdbcTemplate.queryForObject(sql, String.class, participant_id);
+
+                    int attempt_count = attempts.size();
+                    int max_point = 0;
+                    LocalDateTime max_point_attempt_end = attempts.get(0).getAttempt_end();
+
+                    for (Attempt attempt: attempts) {
+                        if (attempt.getPoint() > max_point) {
+                            max_point = attempt.getPoint();
+                            max_point_attempt_end = attempt.getAttempt_end();
+                        }
+                    }
+                    Long max_point_duration = Duration.between(contest_create_date, max_point_attempt_end).toSeconds();
+
+                    LeaderboardUser leaderboardUser = new LeaderboardUser();
+                    leaderboardUser.setTotal_attempt_count(attempt_count);
+                    leaderboardUser.setTotal_finish_time_duration(max_point_duration);
+                    leaderboardUser.setTotal_point(max_point);
+                    leaderboardUser.setUser_id(participant_id);
+                    leaderboardUser.setName(name);
+
+                    if (!user_attempt_map.containsKey(participant_id)) {
+                        user_attempt_map.put(participant_id, new ArrayList<>());
+                        user_attempt_map.get(participant_id).add(leaderboardUser);
+                    } else {
+                        user_attempt_map.get(participant_id).add(leaderboardUser);
+                    }
+                }
+            }
+
+            List<LeaderboardUser> leaderboardUsers = new ArrayList<>();
+            for (Map.Entry<Integer, List<LeaderboardUser>> set: user_attempt_map.entrySet()) {
+                leaderboardUsers.add(LeaderboardUser.sum(set.getValue()));
+            }
+
+            Collections.sort(leaderboardUsers);
+            return leaderboardUsers;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
