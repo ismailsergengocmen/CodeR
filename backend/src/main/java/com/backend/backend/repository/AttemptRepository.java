@@ -2,7 +2,6 @@ package com.backend.backend.repository;
 
 import com.backend.backend.entity.CodingAttempt;
 import com.backend.backend.entity.NonCodingAttempt;
-import com.backend.backend.entity.NonCodingQuestion;
 import com.backend.backend.util.SubmitResult;
 import com.backend.backend.util.TestCaseAttempt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +133,7 @@ public class AttemptRepository {
              sql = "INSERT INTO non_coding_attempt (attempt_id, answer) VALUES (?, ?)";
              jdbcTemplate.update(sql, attempt_id, nonCodingAttempt.getAnswer());
 
+             // Insert into solve_non_coding table
              sql = "INSERT INTO solve_non_coding (user_id, question_id, attempt_id) VALUES (?, ?, ?)";
              jdbcTemplate.update(sql, nonCodingAttempt.getUser_id(), nonCodingAttempt.getQuestion_id(), attempt_id);
 
@@ -144,9 +144,13 @@ public class AttemptRepository {
         }
     }
 
-    public List<CodingAttempt> getPastChallengeAttempt(Integer question_id) {
+    public List<CodingAttempt> getPastChallengeAttempt(Integer question_id, Integer point) {
         try {
             String sql = "SELECT attempt_id, attempt_start, attempt_end, point, user_id, programming_language, code, question_id FROM attempt NATURAL JOIN coding_attempt NATURAL JOIN solve_coding WHERE question_id = ?";
+            if (point != null) {
+                sql = sql + " AND point = ?";
+                return jdbcTemplate.query(sql, codingAttemptMapper, question_id, point);
+            }
             return jdbcTemplate.query(sql, codingAttemptMapper, question_id);
         } catch (Exception e) {
             System.out.println(e.getMessage());

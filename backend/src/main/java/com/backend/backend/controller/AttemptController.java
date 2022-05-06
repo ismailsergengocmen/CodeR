@@ -27,8 +27,8 @@ public class AttemptController {
     }
 
     @GetMapping("past/challenge/{question_id}")
-    public List<CodingAttempt> getPastChallengeAttempt(@PathVariable Integer question_id) {
-        return attemptRepository.getPastChallengeAttempt(question_id);
+    public List<CodingAttempt> getPastChallengeAttempt(@PathVariable Integer question_id, @RequestParam(required = false) Integer point) {
+        return attemptRepository.getPastChallengeAttempt(question_id, point);
     }
 
     @GetMapping("past/noncoding/{question_id}")
