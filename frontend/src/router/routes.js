@@ -1,17 +1,21 @@
 import Login from "../pages/auth/Login.vue"
 import Register from "../pages/auth/Register.vue"
-import HomePage from "../pages/HomePage.vue"
+import ChallengeFilter from "../components/challenge/ChallengeFilter.vue"
 import Error404 from "../pages/Error404"
 
 
 const routes = [
   {
+    path: '/register',
+    component: Register
+  },
+  {
     path: '/',
     component: Login
   },
   {
-    path: '/register',
-    component: Register
+    path: '/filter',
+    component: ChallengeFilter
   },
   //   children: [
   //     {

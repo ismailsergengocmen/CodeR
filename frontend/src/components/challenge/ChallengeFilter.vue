@@ -1,57 +1,101 @@
 <template>
-    <div>
+    <div class="q-gutter-md">
+        <div class="q-gutter-md">
+            <q-btn color="grey" label="Challenges" class="q-mr-lg"/>
+            <q-btn color="grey" label="Solved Challenges" />
+        </div>
+        <div class="q-gutter-md row">
+            <div v-for="difficulty in difficulties" :key="difficulty.name" >
+                <q-btn :color="difficultyStyle(difficulty.value)" :label="difficulty.name" @click="selectDifficulty(difficulty.value)" />
+            </div>
+        </div>
+        <div class="q-gutter-md row">
+            <div v-for="category in categories" :key="category.name" >
+                <q-btn color="grey" :label="category.name" @click="selectCategory(category.value)"/>
+            </div>
+        </div>
         <div>
-            <div>
-                <q-btn color="grey" label="Challenges" class="q-mr-lg"/>
-                <q-btn color="grey" label="Solved Challenges" />
-            </div>
-            <div>
-                <q-btn-group>
-                    <q-btn color="grey" label="Easy" />
-                    <q-btn color="grey" label="Medium" />
-                    <q-btn color="grey" label="Hard" />
-                    <q-btn color="grey" label="Extreme" />
-                </q-btn-group>
-            </div>
-            <div>
-                <q-btn-group>
-                    <q-btn color="grey" label="Sorting" />
-                    <q-btn color="grey" label="Data Structures" />
-                    <q-btn color="grey" label="Algorithms" />
-                    <q-btn color="grey" label="Programming Languages" />
-                </q-btn-group>
-            </div>
-            <div>
-                <q-input
-                    v-model="search"
-                    debounce="1000"
-                    outlined
-                    dense
-                    :placeholder="$t('Search')"
-                    color="secondary"
-                >
-                    <template v-slot:append>
-                        <q-icon name="search" />
-                    </template>
-                </q-input>
-            </div>
+            <q-input
+                v-model="currentName"
+                debounce="1500"
+                outlined
+                dense
+                placeholder='Search'
+                color="secondary"
+            >
+                <template v-slot:prepend>
+                    <q-icon name="search" />
+                </template>
+            </q-input>
         </div>
     </div>
 </template>
 
 <script>
+import { ref, watch } from "vue"
+
 export default {
-  name: "Challenge Filter",
-  props: {
-      
-  }
+    name: "ChallengeFilter",
+    props: {},
+    setup(props,ctx){
+        const currentDifficulties = ref(["easy"]);
+        const currentCategories = ref([]);
+        const currentName = ref("");
+
+        const difficulties = [
+            // name frontendde görülen, value backendde kullanılan
+            {name: "Easy", value: "easy"}, 
+            {name: "Medium", value: "medium"}, 
+            {name: "Hard", value: "hard"},
+            {name: "Extreme", value: "extreme"}
+        ];
+        const categories = [
+            {name: "Sorting", value: "sorting"},
+            {name: "Data Structures", value: "data_structures"},
+            {name: "Algorithms", value: "algorithms"},
+            {name: "Programming Languages", value: "programming_languages"}
+        ];
+
+        function selectDifficulty(difficulty){
+            if(!currentDifficulties.value.some(data => data == difficulty))
+                currentDifficulties.value.push(difficulty);
+            else
+                currentDifficulties.value = currentDifficulties.value.filter(data => data != difficulty)
+            ctx.emit("selectDifficulty", currentDifficulties)
+        }
+
+        function selectCategory(category){
+            if(!currentCategories.value.some(data => data == category))
+                currentCategories.value.push(category);
+            else
+                currentCategories.value = currentCategories.value.filter(data => data != category)
+            ctx.emit("selectCategory", currentCategories) 
+            // Can only send one parameter at a time, if not send with an object
+        }
+
+        function difficultyStyle(difficulty){
+            if(currentDifficulties.value.some(data => data === difficulty))
+                return "black"
+            return "grey"    
+        }
+
+        watch(currentName, (newVal) => {
+            ctx.emit("search", newVal.value)
+        })
+
+        return{
+            currentDifficulties,
+            difficulties,
+            categories,
+            currentCategories,
+            selectDifficulty,
+            selectCategory,
+            difficultyStyle,
+            currentName
+        }
+    }
 }
 </script>
 
 <style scoped>
-.bordered { 
-  border: 1px solid rgb(192, 192, 192);
-  width: 50%;
-  border-radius: 5px;
-}
 </style>
