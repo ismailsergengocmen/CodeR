@@ -52,7 +52,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping("login")
+    @PostMapping("login")
     public Integer login(@RequestBody User user) {
         return userRepository.isUserExists(user);
     }
