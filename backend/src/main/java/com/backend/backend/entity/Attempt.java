@@ -7,17 +7,21 @@ public class Attempt {
     private LocalDateTime attempt_start;
     private LocalDateTime attempt_end;
     private Integer point;
+    private Integer user_id;
+    private Integer question_id;
 
     public Attempt() {}
 
-    public Attempt(Integer attempt_id, LocalDateTime attempt_start, LocalDateTime attempt_end, Integer point) {
+    public Attempt(Integer attempt_id, LocalDateTime attempt_start, LocalDateTime attempt_end, Integer point, Integer user_id, Integer question_id) {
         this.attempt_id = attempt_id;
         this.attempt_start = attempt_start;
         this.attempt_end = attempt_end;
         this.point = point;
+        this.user_id = user_id;
+        this.question_id = question_id;
     }
 
-    public int getAttempt_id() {
+    public Integer getAttempt_id() {
         return attempt_id;
     }
 
@@ -47,5 +51,21 @@ public class Attempt {
 
     public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Integer getQuestion_id() {
+        return question_id;
+    }
+
+    public void setQuestion_id(Integer question_id) {
+        this.question_id = question_id;
     }
 }
