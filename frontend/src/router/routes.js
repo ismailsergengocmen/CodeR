@@ -1,6 +1,8 @@
 import Login from "../pages/auth/Login.vue"
 import Register from "../pages/auth/Register.vue"
 import ChallengeFilter from "../components/challenge/ChallengeFilter.vue"
+import CreateChallengePage from "../pages/challenge/CreateChallengePage.vue"
+import CreateContestPage from "../pages/contest/CreateContestPage.vue"
 import Error404 from "../pages/Error404"
 
 
@@ -17,73 +19,15 @@ const routes = [
     path: '/filter',
     component: ChallengeFilter
   },
-  //   children: [
-  //     {
-  //       path: 'home',
-  //       name: 'Home',
-  //       component: HomePage,
-  //       meta: {
-  //         haveAccess: ['JobSeeker', 'Company', 'Editor'] 
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/~',
-  //   component: BaseLayoutTab,
-  //   children: [
-  //     {
-  //       path: 'challenges',
-  //       name: 'Challenges',
-  //       component: ChallengesPage,
-  //       meta: {
-  //         haveAccess: ['JobSeeker']
-  //       }
-  //     },
-  //     {
-  //       path: 'challenges/:id',
-  //       name: 'ChallengeSpecificPage',
-  //       component: CourseSpecificPage,
-  //       props: true,
-  //       meta: {
-  //         haveAccess: ['JobSeeker']
-  //       }
-  //     },
-  //     {
-  //       path: 'contests',
-  //       name: 'Contests',
-  //       component: ContestsPage,
-  //       meta: {
-  //         haveAccess: ['JobSeeker']
-  //       }
-  //     },
-  //     {
-  //       path: 'contests/:id',
-  //       name: 'ContestSpecificPage',
-  //       component: ContestSpecificPage,
-  //       props: true,
-  //       meta: {
-  //         haveAccess: ['JobSeeker']
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/auth',
-  //   component: BaseIndex,
-  //   children: [
-  //     {
-  //       path: 'login',
-  //       name: 'Login',
-  //       component: Login
-  //     },
-  //     {
-  //       path: 'register',
-  //       name: 'Register',
-  //       component: Register
-  //     }
-  //   ]
-  // },
+  {
+    path: '/createQuestion',
+    component: CreateChallengePage
+  },
+  {
+    path: '/createContest',
+    component: CreateContestPage
+  },
+  
   {
     path: '/:catchAll(.*)*',
     name: 'Error404',

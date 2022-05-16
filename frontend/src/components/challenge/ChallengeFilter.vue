@@ -16,7 +16,7 @@
         </div>
         <div>
             <q-input
-                v-model="currentName"
+                gmodel="currentName"
                 debounce="1500"
                 outlined
                 dense
