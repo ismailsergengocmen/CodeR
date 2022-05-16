@@ -46,6 +46,6 @@ public class ContestController {
 
     @GetMapping("leaderboard/{contest_id}")
     public List<LeaderboardUser> getLeaderboard(@PathVariable Integer contest_id) {
-        return contestRepository.getLeaderboard(contest_id);
+        return contestRepository.getLeaderboardLULZ(contest_id);
     }
 }
