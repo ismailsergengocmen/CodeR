@@ -283,7 +283,7 @@ public class ContestRepository {
         return all_items_map;
     }
 
-    public List<LeaderboardUser> getLeaderboardLULZ(Integer contest_id) {
+    public List<LeaderboardUser> getLeaderboard(Integer contest_id) {
         // Find the participants' best attempts for each question. This will return question_count x participant_count amount of entry.
         String sql = "SELECT SC1.user_id, SC1.question_id, U1.name, point, A1.attempt_end " +
                         "FROM attempt A1 INNER JOIN coding_attempt CA1 ON A1.attempt_id = CA1.attempt_id " +

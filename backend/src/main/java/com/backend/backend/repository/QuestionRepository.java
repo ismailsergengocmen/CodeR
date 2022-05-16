@@ -85,11 +85,11 @@ public class QuestionRepository {
             // For each category, first find the questions that have that category and apply the other categories to those questions.
             // Repeat this until there is no more question or categories.
             for (String s : category) {
-                sql = "SELECT question_id FROM question NATURAL JOIN question_category WHERE category = ?";
+                sql = "SELECT question_id FROM question NATURAL JOIN question_category WHERE category LIKE ?";
                 String questionMarks = StringUtils.repeat("?", ", ", ids.size());
                 String tempSQL = sql + " AND question_id IN (" + questionMarks + ")";
 
-                ids.add(0, s);
+                ids.add(0, "%" + s + "%");
                 Object[] paramArray = ids.toArray();
                 ids = jdbcTemplate.query(tempSQL, (rs, rowNum) -> rs.getInt("question_id"), paramArray);
 
