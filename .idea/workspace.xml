@@ -46,10 +46,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="GitStage.ChangesTree.GroupingKeys" value="directory&#10;module&#10;repository" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/backend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
@@ -78,6 +79,7 @@
       <workItem from="1650618725165" duration="11000" />
       <workItem from="1650755439440" duration="33000" />
       <workItem from="1651522047331" duration="37130000" />
+      <workItem from="1652292836490" duration="2000" />
     </task>
     <servers />
   </component>
