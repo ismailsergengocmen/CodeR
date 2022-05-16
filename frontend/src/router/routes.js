@@ -18,7 +18,7 @@ const routes = [
     component: ChallengeFilter,
   },
   {
-    path: "/challenge/:course_id",
+    path: "/challenge/:question_id",
     component: ChallengeSpecificPage,
     props: true,
   },
