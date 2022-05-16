@@ -1,4 +1,4 @@
-package com.backend.backend.util;
+package com.backend.backend.entity;
 
 public class TestCaseAttempt {
     private Integer test_case_id;

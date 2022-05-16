@@ -3,7 +3,7 @@ package com.backend.backend.controller;
 import com.backend.backend.entity.CodingAttempt;
 import com.backend.backend.entity.NonCodingAttempt;
 import com.backend.backend.repository.AttemptRepository;
-import com.backend.backend.util.SubmitResult;
+import com.backend.backend.entity.SubmitResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

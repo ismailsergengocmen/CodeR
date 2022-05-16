@@ -1,7 +1,5 @@
 package com.backend.backend.entity;
 
-import com.backend.backend.util.Sponsor;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

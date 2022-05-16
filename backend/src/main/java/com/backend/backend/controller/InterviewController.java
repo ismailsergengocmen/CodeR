@@ -2,7 +2,9 @@ package com.backend.backend.controller;
 
 import com.backend.backend.entity.Interview;
 import com.backend.backend.repository.InterviewRepository;
+import com.backend.backend.util.InterviewQuestionResult;
 import com.backend.backend.util.InterviewParticipant;
+import com.backend.backend.util.InterviewResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +43,10 @@ public class InterviewController {
     @PutMapping("update")
     public Boolean updateContest(@RequestBody Interview interview) {
         return interviewRepository.updateInterview(interview);
+    }
+
+    @GetMapping("results/{interview_id}")
+    public List<InterviewResult> getInterviewResults(@PathVariable Integer interview_id) {
+        return interviewRepository.getInterviewResults(interview_id);
     }
 }

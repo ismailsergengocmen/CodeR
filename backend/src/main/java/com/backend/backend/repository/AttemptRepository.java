@@ -2,8 +2,8 @@ package com.backend.backend.repository;
 
 import com.backend.backend.entity.CodingAttempt;
 import com.backend.backend.entity.NonCodingAttempt;
-import com.backend.backend.util.SubmitResult;
-import com.backend.backend.util.TestCaseAttempt;
+import com.backend.backend.entity.SubmitResult;
+import com.backend.backend.entity.TestCaseAttempt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -1,4 +1,4 @@
-package com.backend.backend.util;
+package com.backend.backend.entity;
 
 import java.util.List;
 

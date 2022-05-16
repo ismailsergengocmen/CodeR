@@ -1,6 +1,4 @@
-package com.backend.backend.repository;
-
-import com.backend.backend.entity.User;
+package com.backend.backend.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -65,23 +63,6 @@ public class LeaderboardUser extends User implements Comparable<LeaderboardUser>
 
         return leaderboardUser;
     }
-
-//    @Override
-//    public int compareTo(LeaderboardUser o) {
-//        if (this.total_point > o.total_point) {
-//            return o.total_point - this.total_point;
-//        } else {
-//            if (this.total_attempt_count != o.total_attempt_count) {
-//                return o.total_attempt_count - this.total_attempt_count;
-//            } else {
-//                if (this.total_finish_time_duration != o.total_finish_time_duration) {
-//                    return (int)(o.total_finish_time_duration - this.total_finish_time_duration);
-//                } else {
-//                    return 0;
-//                }
-//            }
-//        }
-//    }
 
     @Override
     public int compareTo(LeaderboardUser o) {
