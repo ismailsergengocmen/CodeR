@@ -4,6 +4,7 @@ import ChallengeFilter from "../components/challenge/ChallengeFilter.vue"
 import CreateChallengePage from "../pages/challenge/CreateChallengePage.vue"
 import CreateContestPage from "../pages/contest/CreateContestPage.vue"
 import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue"
+import JobSeekerInContestPage from "../pages/contest/JobSeekerInContestPage.vue"
 import Error404 from "../pages/Error404"
 
 const routes = [
@@ -31,7 +32,14 @@ const routes = [
     path: '/createInterview',
     component: CreateInterviewPage
   },
-  
+  {
+    path: '/contest/:id',
+    name: 'JobSeekerInContestPage',
+    component: JobSeekerInContestPage,
+    props: true,
+
+  },
+
   {
     path: '/:catchAll(.)',
     name: 'Error404',
