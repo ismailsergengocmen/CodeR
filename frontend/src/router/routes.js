@@ -1,21 +1,26 @@
-import Login from "../pages/auth/Login.vue"
-import Register from "../pages/auth/Register.vue"
-import ChallengeFilter from "../components/challenge/ChallengeFilter.vue"
-import Error404 from "../pages/Error404"
-
+import Login from "../pages/auth/Login.vue";
+import Register from "../pages/auth/Register.vue";
+import ChallengeFilter from "../components/challenge/ChallengeFilter.vue";
+import ChallengeSpecificPage from "../pages/challenge/ChallengeSpecificPage.vue";
+import Error404 from "../pages/Error404";
 
 const routes = [
   {
-    path: '/register',
-    component: Register
+    path: "/register",
+    component: Register,
   },
   {
-    path: '/',
-    component: Login
+    path: "/",
+    component: Login,
   },
   {
-    path: '/filter',
-    component: ChallengeFilter
+    path: "/filter",
+    component: ChallengeFilter,
+  },
+  {
+    path: "/challenge/:course_id",
+    component: ChallengeSpecificPage,
+    props: true,
   },
   //   children: [
   //     {
@@ -23,7 +28,7 @@ const routes = [
   //       name: 'Home',
   //       component: HomePage,
   //       meta: {
-  //         haveAccess: ['JobSeeker', 'Company', 'Editor'] 
+  //         haveAccess: ['JobSeeker', 'Company', 'Editor']
   //       }
   //     }
   //   ]
@@ -85,9 +90,9 @@ const routes = [
   //   ]
   // },
   {
-    path: '/:catchAll(.*)*',
-    name: 'Error404',
-    component: Error404
-  }
-]
-export default routes
+    path: "/:catchAll(.*)*",
+    name: "Error404",
+    component: Error404,
+  },
+];
+export default routes;
