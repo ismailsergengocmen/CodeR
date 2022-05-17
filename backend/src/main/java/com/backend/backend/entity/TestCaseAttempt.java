@@ -36,4 +36,13 @@ public class TestCaseAttempt {
     public void setResult(String result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "TestCaseAttempt{" +
+                "test_case_id=" + test_case_id +
+                ", attempt_id=" + attempt_id +
+                ", result='" + result + '\'' +
+                '}';
+    }
 }

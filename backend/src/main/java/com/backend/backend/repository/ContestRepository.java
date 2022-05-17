@@ -51,6 +51,7 @@ public class ContestRepository {
         sponsor.setContest_id(rs.getInt("contest_id"));
         sponsor.setUser_id(rs.getInt("user_id"));
         sponsor.setMoney(rs.getInt("money"));
+        sponsor.setSponsor_name(rs.getString("name"));
 
         return sponsor;
     };
@@ -86,9 +87,24 @@ public class ContestRepository {
         return leaderboardUser;
     };
 
-    public List<Contest> getAllContests() {
-        String sql = "SELECT contest_id, user_id, contest_name, description, start_time, duration, create_date FROM contest";
-        List<Contest> contestList = jdbcTemplate.query(sql, contestMapper);
+    public List<Contest> getAllContests(Integer user_id, boolean entered) {
+        List<Contest> contestList;
+        String sql = "SELECT contest.contest_id, contest.user_id, contest_name, description, start_time, duration, create_date FROM contest";
+        if (user_id != null) {
+            if (entered) {
+                sql += " INNER JOIN enter_contest EC ON contest.contest_id = EC.contest_id WHERE EC.user_id = ?";
+            } else {
+                sql = "SELECT contest_id, contest.user_id, contest_name, description, start_time, duration, create_date " +
+                        "FROM contest " +
+                        "WHERE contest_id NOT IN (SELECT contest.contest_id " +
+                                                    "FROM contest INNER JOIN enter_contest EC ON contest.contest_id = EC.contest_id " +
+                                                    "WHERE EC.user_id = ?)";
+            }
+            contestList = jdbcTemplate.query(sql, contestMapper, user_id);
+        }
+        else {
+            contestList = jdbcTemplate.query(sql, contestMapper);
+        }
 
         HashMap<Integer, List<String>> categories = categoryHashMapper();
         HashMap<Integer, List<Sponsor>> sponsors = sponsorHashMapper();
@@ -269,15 +285,15 @@ public class ContestRepository {
         HashMap<Integer, List<Sponsor>> all_items_map = new HashMap<>();
         List<Sponsor> all_items_list;
 
-        String sql = "SELECT contest_id, user_id, money FROM sponsor";
+        String sql = "SELECT contest_id, user_id, money, name FROM sponsor NATURAL JOIN user";
         all_items_list = jdbcTemplate.query(sql, sponsorMapper);
 
         for (Sponsor i: all_items_list) {
             if (all_items_map.containsKey(i.getUser_id())) {
-                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getUser_id(), i.getMoney()));
+                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getSponsor_name(), i.getUser_id(), i.getMoney()));
             } else {
                 all_items_map.put(i.getContest_id(), new ArrayList<>());
-                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getUser_id(), i.getMoney()));
+                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getSponsor_name(), i.getUser_id(), i.getMoney()));
             }
         }
         return all_items_map;

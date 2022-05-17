@@ -23,16 +23,16 @@
                 class="col"
                 ref="firstRef"
                 >
-                <div v-for="question in questions" :key="question.question_id" class="q-pa-sm">
+                <div v-for="question in contestQuestions" :key="question.question_id" class="q-pa-sm">
                     <div class="row justify-content">
                         <div>
                             <span class="label bg-white text-black"> {{ question.question_title }} </span>
                         </div>
                         <div>
-                            <q-separator vertical inset />
+                            <q-separator vertical inset class="q-pa-md"/>
                         </div>
                         <div>
-                            <q-btn label="Begin" :to="`${question.question_id}`"/>  
+                            <q-btn label="Begin" :to="`${question.question_id}`" class="q-pa-sm"/>  
                         </div>
                     </div>
                 </div> 
@@ -57,7 +57,6 @@ export default {
         const $q = useQuasar();
         const router = useRouter();
         
-        const questions = ref([])
         const contestName = ref('')
         const contestCategories = ref([])
         const contestDate = ref('')
@@ -82,7 +81,6 @@ export default {
         })
 
     return {
-        questions,
         contestName,
         contestCategories,
         contestDate,

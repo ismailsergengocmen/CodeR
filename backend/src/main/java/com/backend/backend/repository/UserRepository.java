@@ -2,6 +2,12 @@ package com.backend.backend.repository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.backend.backend.entity.User;
+import com.backend.backend.entity.JobSeeker;
+import com.backend.backend.repository.JobSeekerRepository;
+import com.backend.backend.entity.Company;
+import com.backend.backend.repository.CompanyRepository;
+import com.backend.backend.entity.Company;
+import com.backend.backend.entity.Editor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +21,15 @@ import java.util.Map;
 
 @Service
 public class UserRepository {
+
+    @Autowired
+    private JobSeekerRepository jobSeekerRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private EditorRepository editorRepository;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -57,6 +72,30 @@ public class UserRepository {
             return null;
         }
     }
+
+    public String findUserType(int user_id){
+        String userType = "";
+        if(jobSeekerRepository.findJobSeekersWithId(user_id) != null){
+          userType = "JobSeeker";
+        }
+        else if(companyRepository.findCompanyWithId(user_id) != null){
+            userType = "Company";
+        }
+        else if(editorRepository.findEditorWithId(user_id) != null){
+            userType = "Editor";
+        }
+        return userType;
+    }
+
+
+
+
+
+
+
+
+
+
 
     public Integer isUserExists(User user) {
         String sql = "SELECT user_id, password FROM user WHERE email = ?";
