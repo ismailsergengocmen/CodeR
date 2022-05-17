@@ -36,57 +36,90 @@
             <div>
         </div>
     </div>
-  
-    <q-field outlined style="width: 150%;" color="secondary">
-      <q-form class="q-gutter-y-md q-px-md q-py-md row" >
-        <div class="col"><div>
-          <b>pralala</b>
-        </div></div>
-  
-        <div class="col">
-            <div class="q-mr-lg">
-        <q-field 
-          outlined 
-          stack-label
-          label="slot.label"
-          color="secondary"
-          >
-          <template v-slot:control>
-            <div class="self-center"> lalala </div>
-          </template>
-        </q-field></div> </div>
-  
-        <div class="col"><q-btn 
-          label="Join" 
-          type="submit" 
-          color="secondary" 
-          @click="join" 
-        /></div>
-      </q-form>
+    
+    <!-- contests -->
+    <q-field outlined style="width: 200%;" color="black">
+        <q-scroll-area
+            visible
+            style="height: 500px;" 
+            style2= "weight: 500px;"
+            class="col"
+            ref="firstRef"
+            >
+            <div v-for="contest in contests" :key="contest.contest_id" class="q-pa-sm">
+                <q-form class="q-gutter-y-md q-px-md q-py-md full-width" >
+                    <div class="col">
+                        <div>
+                            <span class="row justify-center"> {{contest.contest_name}} </span> <!-- {{contestName}} -->
+                        </div>
+                    </div>
+            
+                    <div class="col">
+                        <div class="q-mr-lg">
+                             
+                            <q-field 
+                            outlined 
+                            stack-label
+                            label="Contest Categories"
+                            color="grey"
+                            >
+                                <template v-slot:control>
+                                    <div class="self-center">
+                                        <span class="row justify-center"> {{contest.category}} </span> 
+                                    </div>
+                                </template>
+                            </q-field>
+
+                            <q-field 
+                            outlined 
+                            stack-label
+                            label="Sponsors"
+                            color="grey"
+                            >
+                                <template v-slot:control>
+                                    <div class="self-center">
+                                        <div v-for="sponsor in sponsorss" :key="sponsor.sponsor_id" class="q-pa-sm">
+                                            <span class="row justify-center"> {{sponsor.sponsor_name}}</span> 
+                                        </div>
+                                    </div>
+                                </template>
+                            </q-field> 
+                        </div> 
+                    </div>
+            
+                    <div class="col">
+                        <q-btn 
+                        label="Join This Contest" :to="`contest/${contest.contest_id}`"/>
+                    </div>
+
+                </q-form>
+            </div>
+        </q-scroll-area>
     </q-field>
-    </div>
-    </div>
+</div>
+</div>
 </div>
 
 </template>
 
 <script>
 import { ref, watch, computed } from "vue"
+import { onBeforeMount } from '@vue/runtime-core'
+import { useRouter } from "vue-router"
+import { useQuasar } from "quasar"
+import { api } from "../../boot/axios"
 
 export default {
     name: "ChallengeFilter",
-    props: {
-        slots: Array,
-        title: String
-    },
-    setup(props,ctx){
+
+    setup(ctx){
         const currentDifficulties = ref(["easy"]);
         const currentCategories = ref([]);
         const currentName = ref("");
 
-        const join = () => {
-        
-        }
+        const contests = ref([]);
+        const sponsorss = ref([]);
+
         const filteredSlots = computed(() => {
         return true;
         });
@@ -125,6 +158,14 @@ export default {
             ctx.emit("search", newVal.value)
         })
 
+        //new part
+        onBeforeMount(() => {
+            api.get(`api/v1/contest/all`).then((response) => {
+                contests.value = response.data
+                sponsorss.value = response.data.sponsors
+            })
+        })
+
         return{
             currentDifficulties,
             difficulties,
@@ -134,7 +175,8 @@ export default {
             difficultyStyle,
             currentName,
             filteredSlots,
-            join
+            contests,
+            sponsorss
         }
     }
 }

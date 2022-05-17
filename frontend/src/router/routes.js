@@ -1,6 +1,5 @@
 import Login from "../pages/auth/Login.vue";
 import Register from "../pages/auth/Register.vue";
-import ChallengeFilter from "../components/challenge/ChallengeFilter.vue";
 import CreateChallengePage from "../pages/challenge/CreateChallengePage.vue";
 import CreateContestPage from "../pages/contest/CreateContestPage.vue";
 import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue";
@@ -9,6 +8,7 @@ import ChallengeSpecificPage from "../pages/challenge/ChallengeSpecificPage.vue"
 import Error404 from "../pages/Error404";
 import JobSeekerContestScreen from "../pages/contests/JobSeekerContestScreen.vue"
 import LeftMenuLayout from "../layouts/LeftMenuLayout.vue"
+import ChallengesPage from "../pages/challenge/ChallengesPage.vue"
 
 const routes = [
   {
@@ -20,20 +20,10 @@ const routes = [
     component: Login,
   },
   {
-    path: "/filter",
-    component: ChallengeFilter,
-  },
-  {
-    path: "/createQuestion",
-    component: CreateChallengePage,
-  },
-  {
-    path: "/createContest",
-    component: CreateContestPage,
-  },
-  {
-    path: "/createInterview",
-    component: CreateInterviewPage,
+    path: "/challenge/:question_id",
+    name: "ChallengeSpecificPage",
+    component: ChallengeSpecificPage,
+    props: true,
   },
   {
     path: '/~',
@@ -41,8 +31,30 @@ const routes = [
     children: [
       {
         path: 'contest',
-        name: 'JobSeekerContestScreen2',
+        name: 'JobSeekerContestScreen',
         component: JobSeekerContestScreen
+      },
+      {
+        path: "contest/:id",
+        name: "JobSeekerInContestPage",
+        component: JobSeekerInContestPage,
+        props: true,
+      },
+      {
+        path: "challenges",
+        component: ChallengesPage,
+      },
+      {
+        path: "createQuestion",
+        component: CreateChallengePage,
+      },
+      {
+        path: "createContest",
+        component: CreateContestPage,
+      },
+      {
+        path: "createInterview",
+        component: CreateInterviewPage,
       }
     ]
   },
@@ -113,19 +125,6 @@ const routes = [
   //     }
   //   ]
   // },
-  {
-    path: "/contest/:id",
-    name: "JobSeekerInContestPage",
-    component: JobSeekerInContestPage,
-    props: true,
-  },
-  {
-    path: "/challenge/:question_id",
-    name: "ChallengeSpecificPage",
-    component: ChallengeSpecificPage,
-    props: true,
-  },
-
   {
     path: "/:catchAll(.)",
     name: "Error404",

@@ -18,14 +18,14 @@
         Challenges/ Contests/ Interviews/ Options/ Logout -->
         <div class="column">
             <!--Company -->
-            <router-link to="/register" >
+            <router-link to="/~/createInterview" >
                  <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Create Interview" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to="/filter" >
+            <router-link to="/~/contest" > <!--BUNUN SAYFASI YOK DAHA-->
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Sponsor Contest" class="q-mr-lg"/>
@@ -34,14 +34,14 @@
             </router-link>
 
             <!--Editor -->
-            <router-link to="/register" >
+            <router-link to="/~/createQuestion" >
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Create Question" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to= "/filter">
+            <router-link to= "/~/createContest">
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Create Contest" class="q-mr-lg"/>
@@ -49,21 +49,21 @@
                 </q-item>
             </router-link>
             <!--Job Seeker-->
-            <router-link to= "/register">
+            <router-link to= "/~/challenges">
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Challenges" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to= "/filter">
+            <router-link to= "/~/contest">
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Contests" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to= "/register">
+            <router-link to= "/~/contest/4">
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Interviews" class="q-mr-lg"/>
@@ -74,14 +74,14 @@
          
         <!--General -->
         <div class="fixed-bottom q-mb-sm">
-            <router-link to="/filter">            
+            <router-link to="/register">            
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Options" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to="/register">
+            <router-link to="/">
                 <q-item clickable v-ripple style="min-height: 35px;" @click="logout">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Logout" class="q-mr-lg"/>
