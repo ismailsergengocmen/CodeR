@@ -62,11 +62,19 @@ public class InterviewRepository {
         return attempt;
     };
 
-    public List<Interview> getAllInterviews(Integer company_id) {
-        String sql = "SELECT interview_id, title, start_date, duration, create_date, user_id FROM interview";
-        if (company_id != null) {
-            sql += " WHERE user_id = ?";
+    public List<Interview> getAllInterviews(Integer company_id, Integer user_id) {
+        String sql = "SELECT I.interview_id, I.title, I.start_date, I.duration, I.create_date, I.user_id FROM interview I";
+
+        if (company_id != null && user_id != null) {
+            sql += " INNER JOIN enter_interview EI ON I.interview_id = EI.interview_id WHERE EI.user_id = ? AND I.user_id = ?";
+            return jdbcTemplate.query(sql, interviewMapper, user_id, company_id);
+        }
+        else if (company_id != null) {
+            sql += " WHERE I.user_id = ?";
             return jdbcTemplate.query(sql, interviewMapper, company_id);
+        } else if (user_id != null) {
+            sql += " INNER JOIN enter_interview EI ON I.interview_id = EI.interview_id WHERE EI.user_id = ?";
+            return jdbcTemplate.query(sql, interviewMapper, user_id);
         }
         return jdbcTemplate.query(sql, interviewMapper);
     }

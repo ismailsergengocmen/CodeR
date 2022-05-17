@@ -20,8 +20,8 @@ public class InterviewController {
     InterviewRepository interviewRepository;
 
     @GetMapping("all")
-    public List<Interview> getAllInterviews(@RequestParam(required = false) Integer company_id) {
-        return interviewRepository.getAllInterviews(company_id);
+    public List<Interview> getAllInterviews(@RequestParam(required = false) Integer company_id, @RequestParam(required = false) Integer user_id) {
+        return interviewRepository.getAllInterviews(company_id, user_id);
     }
 
     @GetMapping("{interview_id}")
