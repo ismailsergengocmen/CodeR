@@ -48,6 +48,7 @@ public class QuestionController {
             forumRepository.createForum(new Forum(challenge_id, LocalDateTime.now().withNano(0), challenge.getQuestion_title() + "'s Forum", null));
             return challenge_id;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -72,10 +73,9 @@ public class QuestionController {
         nonCodingQuestion.setCreate_date(LocalDateTime.now().withNano(0));
 
         try {
-            int noncoding_id = questionRepository.createNonCodingQuestion(nonCodingQuestion);
-            forumRepository.createForum(new Forum(noncoding_id, LocalDateTime.now().withNano(0), nonCodingQuestion.getQuestion_title() + "'s Forum", null));
-            return noncoding_id;
+            return questionRepository.createNonCodingQuestion(nonCodingQuestion);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
