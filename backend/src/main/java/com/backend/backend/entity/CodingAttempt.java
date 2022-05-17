@@ -29,4 +29,12 @@ public class CodingAttempt extends Attempt {
     public void setCode(String code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "CodingAttempt{" +
+                "programming_language='" + programming_language + '\'' +
+                ", code='" + code + '\'' +
+                '}';
+    }
 }

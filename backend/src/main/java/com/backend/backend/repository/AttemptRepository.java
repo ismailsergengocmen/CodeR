@@ -161,12 +161,11 @@ public class AttemptRepository {
                 pastChallengeAttempts = jdbcTemplate.query(sql, codingAttemptMapper, question_id);
             }
 
-
             for (int i = 0; i < pastChallengeAttempts.size(); i++) {
                 sql = "SELECT test_case_id, attempt_id, result FROM test_case_attempt WHERE attempt_id = ?";
                 List<TestCaseAttempt> testCaseAttempt = jdbcTemplate.query(sql, testCaseAttemptMapper, pastChallengeAttempts.get(i).getAttempt_id());
-                pastAttemptsWithTestCases.get(i).setCodingAttempt(pastChallengeAttempts.get(i));
-                pastAttemptsWithTestCases.get(i).setTestCaseAttempt(testCaseAttempt);
+                CodingAttemptWithTestCases codingAttemptWithTestCases = new CodingAttemptWithTestCases(pastChallengeAttempts.get(i), testCaseAttempt);
+                pastAttemptsWithTestCases.add(codingAttemptWithTestCases);
             }
 
             return pastAttemptsWithTestCases;
