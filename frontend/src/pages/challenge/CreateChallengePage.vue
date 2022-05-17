@@ -163,7 +163,7 @@ export default {
                 message: "Something wrong",
               });
             } else {
-              router.push("/home");
+              router.push("/menu");
             }
           })
           .catch(() => {
@@ -206,7 +206,7 @@ export default {
                 message: "Something wrong",
               });
             } else {
-              router.push("/home");
+              router.push("/menu");
             }
           })
           .catch(() => {

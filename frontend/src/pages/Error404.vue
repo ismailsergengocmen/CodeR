@@ -9,7 +9,7 @@
         {{ 'Oops' }}
       </div>
 
-      <router-link to="/home" class="text-h4 text-white"> {{ 'GoHome' }} </router-link>
+      <router-link to="/menu" class="text-h4 text-white"> {{ 'GoHome' }} </router-link>
     </div>
   </div>
 </template>

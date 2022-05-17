@@ -21,7 +21,7 @@ import JobSeekerInterviewPage from "../pages/interview/JobSeekerInterviewPage.vu
 
 import Error404 from "../pages/Error404";
 import LeftMenuLayout from "../layouts/LeftMenuLayout.vue";
-import LeftMenu from "../layouts/LeftMenuLayout.vue";
+import LeftMenu from "../layouts/LeftMenu.vue";
 
 const routes = [
   {

@@ -1,10 +1,10 @@
 <template>
 <div>
     <div class="absolute-top column items-center" active-class="bg-teal-2">
-        <router-link to="/home">
+        <router-link to="/menu">
             <q-img 
                 width="150px"
-                src="../assets/hermione.jpg" 
+                src="../assets/logo.png" 
                 class="q-mt-md" 
             /> 
         </router-link> 
@@ -112,7 +112,7 @@ import { api } from "../boot/axios"
 export default {
   name: 'LeftMenu',
 
-  setup(ctx) {
+  setup(props, ctx) {
         const $q = useQuasar();
         const router = useRouter();
         const currentUser = ref(null)
