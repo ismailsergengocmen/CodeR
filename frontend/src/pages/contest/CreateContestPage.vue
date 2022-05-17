@@ -17,13 +17,33 @@
         </div>
         <div class="row bordered q-pa-md justify-around">
             <div name= "Set time button and date/time objects">
-                <q-btn @click = changeDateButtonState label="Set Time"/>
-                <div v-if ="dateButton == true" class="row items-start">
-                    <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm" color="black" />
-                    <q-time v-model="startTime" mask="YYYY-MM-DDTHH:mm" color="black" />
-                </div>
+                <q-input filled v-model="startTime">
+                    <template v-slot:prepend>
+                        <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date v-model="startTime" mask="YYYY-MM-DDTHH:mm">
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                    <template v-slot:append>
+                        <q-icon name="access_time" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-time v-model="startTime" mask="YYYY-MM-DDTHH:mm" format24h>
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-time>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                </q-input>
             </div>
             <div>
+                {{ startTime }}
                 <span class="label bg-white text-black">Duration</span>
                 <q-input outlined v-model="duration"/>
             </div>
@@ -75,7 +95,7 @@
             </q-dialog>
         </div>
         <div class="row justify-around">
-        <q-btn @click="createContestHelper" label="Create"/>
+        <q-btn @click="createContest" label="Create"/>
         </div>
     </div>
 </template>
@@ -122,8 +142,8 @@ export default {
                 dateButton.value = false
         }
 
-        const createContest = async (contestName, startDate, startTime, duration, categories) => {
-            if(!contestName || !startTime || !duration|| !categories){
+        const createContest = async () => {
+            if(!contestName.value || !startTime.value || !duration.value || !categories.value){
                 $q.notify({
                 position:"top",
                 color:"negative",
@@ -131,17 +151,16 @@ export default {
                 })
             }
             else{
-                finalTime.value = startTime.value // TODO
-                getQuestionIDs()
-                console.log(questionsID.value)
+                finalTime.value = startTime.value
+                await getQuestionIDs()
                 const contestData = {
                     user_id: localStorage.getItem("currentUserID"),
-                    contest_name: contestName,          
+                    contest_name: contestName.value,          
                     description: description.value,
                     start_time: finalTime.value,
-                    duration: duration,
-                    category: categories,
-                    question_id: questionsID.value,
+                    duration: duration.value,
+                    category: categories.value,
+                    question_ids: questionsID.value,
                     sponsors: []
                 };
 
@@ -166,18 +185,14 @@ export default {
             }
         }
 
-        const createContestHelper = async () => {
-            await createContest(contestName.value, startDate.value, startTime.value, duration.value, categories.value)
-        }
-
         const addQuestions = (questionData) => {
             questions.value.push(questionData)
         }
 
-        const getQuestionIDs = () => {
-            for (let question in questions.value){
-                console.log(question)
-                api.post("/api/v1/question/challenge/create", question).then((response)=>{
+        const getQuestionIDs = async () => {
+            questionsID.value = []
+            for (let i = 0; i < questions.value.length; i++){
+                api.post("/api/v1/question/challenge/create", questions.value[i]).then((response)=>{
                     if(response.data)
                         questionsID.value.push(response.data)
                     else{
@@ -205,9 +220,8 @@ export default {
             categories,
             categoryOptions,
             changeDateButtonState,
-            createContestHelper,
             createContest,
-            addQuestions
+            addQuestions,
         }
     }
 }
