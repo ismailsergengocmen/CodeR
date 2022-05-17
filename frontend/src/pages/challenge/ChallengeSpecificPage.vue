@@ -87,29 +87,29 @@
     </div>
     <q-dialog v-model="showOldAttempts" full-width full-height>
       <q-card>
-        <q-scroll-area style="height: 515px">
+        <q-scroll-area style="height: 540px">
           <q-card-section>
             <div v-for="(attempt, index) in oldAttempts" :key="attempt.id">
               <q-expansion-item
                 expand-separator
-                :icon="pastAttemptIcon(attempt.point)"
-                :header-class="pastAttemptStyle(attempt.point)"
+                :icon="pastAttemptIcon(attempt.codingAttempt.point)"
+                :header-class="pastAttemptStyle(attempt.codingAttempt.point)"
                 :label="`Attempt ${index + 1}`"
-                :caption="attempt.attempt_end"
+                :caption="styledDateTime(attempt.codingAttempt.attempt_end)"
                 expand-icon-class="text-white"
               >
                 <q-card>
                   <q-card-section>
                     <div>
-                      Programming Language: {{ attempt.programming_language }}
+                      Programming Language:
+                      {{ attempt.codingAttempt.programming_language }}
                     </div>
-                    <div>{{ attempt.code }}</div>
-                    <q-separator />
-                    <div>
+                    <div>{{ attempt.codingAttempt.code }}</div>
+                    <q-separator class="q-my-sm" />
+                    <div class="q-gutter-y-md">
                       <div
-                        class="q-mb-md"
                         style="height: 50px"
-                        v-for="(attempt, index) in attemptResults"
+                        v-for="(attempt, index) in attempt.testCaseAttempt"
                         :key="attempt"
                       >
                         <q-banner
@@ -208,6 +208,11 @@ export default {
       return point === 100 ? "bg-green text-white" : "bg-negative text-white";
     };
 
+    const styledDateTime = (dateTimeTimestamp) => {
+      const a = dateTimeTimestamp.split("T");
+      return a[1] + "  --  " + a[0];
+    };
+
     return {
       pl,
       plOptions,
@@ -223,6 +228,7 @@ export default {
       oldAttempts,
       pastAttemptIcon,
       pastAttemptStyle,
+      styledDateTime,
     };
   },
 };
