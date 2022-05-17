@@ -26,6 +26,11 @@ public class UserController {
         return userRepository.findUserWithId(user_id);
     }
 
+    @GetMapping("{user_type}")
+    public String findUserType(@PathVariable int user_id) {
+        return userRepository.findUserType(user_id);
+    }
+
     @PostMapping("all")
     public Boolean addNewUser(@RequestBody User user) {
         try {
