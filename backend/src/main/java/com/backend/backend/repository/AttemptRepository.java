@@ -1,15 +1,13 @@
 package com.backend.backend.repository;
 
-import com.backend.backend.entity.CodingAttempt;
-import com.backend.backend.entity.NonCodingAttempt;
-import com.backend.backend.entity.SubmitResult;
-import com.backend.backend.entity.TestCaseAttempt;
+import com.backend.backend.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -144,23 +142,48 @@ public class AttemptRepository {
         }
     }
 
-    public List<CodingAttempt> getPastChallengeAttempt(Integer question_id, Integer point) {
+    public List<CodingAttemptWithTestCases> getPastChallengeAttempt(Integer question_id, Integer point, Integer user_id) {
         try {
+            List<CodingAttemptWithTestCases> pastAttemptsWithTestCases = new ArrayList<>();
+            List<CodingAttempt> pastChallengeAttempts;
             String sql = "SELECT attempt_id, attempt_start, attempt_end, point, user_id, programming_language, code, question_id FROM attempt NATURAL JOIN coding_attempt NATURAL JOIN solve_coding WHERE question_id = ?";
-            if (point != null) {
+
+            if (point != null && user_id != null) {
+                sql = sql + " AND point = ? AND user_id = ?";
+                pastChallengeAttempts = jdbcTemplate.query(sql, codingAttemptMapper, question_id, point, user_id);
+            } else if (point != null) {
                 sql = sql + " AND point = ?";
-                return jdbcTemplate.query(sql, codingAttemptMapper, question_id, point);
+                pastChallengeAttempts = jdbcTemplate.query(sql, codingAttemptMapper, question_id, point);
+            } else if (user_id != null) {
+                sql = sql + " AND user_id = ?";
+                pastChallengeAttempts = jdbcTemplate.query(sql, codingAttemptMapper, question_id, user_id);
+            } else {
+                pastChallengeAttempts = jdbcTemplate.query(sql, codingAttemptMapper, question_id);
             }
-            return jdbcTemplate.query(sql, codingAttemptMapper, question_id);
+
+
+            for (int i = 0; i < pastChallengeAttempts.size(); i++) {
+                sql = "SELECT test_case_id, attempt_id, result FROM test_case_attempt WHERE attempt_id = ?";
+                List<TestCaseAttempt> testCaseAttempt = jdbcTemplate.query(sql, testCaseAttemptMapper, pastChallengeAttempts.get(i).getAttempt_id());
+                pastAttemptsWithTestCases.get(i).setCodingAttempt(pastChallengeAttempts.get(i));
+                pastAttemptsWithTestCases.get(i).setTestCaseAttempt(testCaseAttempt);
+            }
+
+            return pastAttemptsWithTestCases;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
 
-    public List<NonCodingAttempt> getPastNonCodingQuestionAttempts(Integer question_id) {
+    public List<NonCodingAttempt> getPastNonCodingQuestionAttempts(Integer question_id, Integer user_id) {
         try {
             String sql = "SELECT attempt_id, attempt_start, attempt_end, point, user_id, answer, question_id FROM attempt NATURAL JOIN non_coding_attempt NATURAL JOIN solve_non_coding WHERE question_id = ?";
+
+            if (user_id != null) {
+                sql = sql + " AND user_id = ?";
+                return jdbcTemplate.query(sql, noncodingAttemptMapper, question_id, user_id);
+            }
             return jdbcTemplate.query(sql, noncodingAttemptMapper, question_id);
         } catch (Exception e) {
             System.out.println(e.getMessage());

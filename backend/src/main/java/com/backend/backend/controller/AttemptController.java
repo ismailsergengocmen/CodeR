@@ -1,6 +1,7 @@
 package com.backend.backend.controller;
 
 import com.backend.backend.entity.CodingAttempt;
+import com.backend.backend.entity.CodingAttemptWithTestCases;
 import com.backend.backend.entity.NonCodingAttempt;
 import com.backend.backend.repository.AttemptRepository;
 import com.backend.backend.entity.SubmitResult;
@@ -27,12 +28,12 @@ public class AttemptController {
     }
 
     @GetMapping("past/challenge/{question_id}")
-    public List<CodingAttempt> getPastChallengeAttempt(@PathVariable Integer question_id, @RequestParam(required = false) Integer point) {
-        return attemptRepository.getPastChallengeAttempt(question_id, point);
+    public List<CodingAttemptWithTestCases> getPastChallengeAttempt(@PathVariable Integer question_id, @RequestParam(required = false) Integer point, @RequestParam(required = false) Integer user_id) {
+        return attemptRepository.getPastChallengeAttempt(question_id, point, user_id);
     }
 
     @GetMapping("past/noncoding/{question_id}")
-    public List<NonCodingAttempt> getPastNonCodingQuestionAttempts(@PathVariable Integer question_id) {
-        return attemptRepository.getPastNonCodingQuestionAttempts(question_id);
+    public List<NonCodingAttempt> getPastNonCodingQuestionAttempts(@PathVariable Integer question_id, @RequestParam(required = false) Integer user_id) {
+        return attemptRepository.getPastNonCodingQuestionAttempts(question_id, user_id);
     }
 }
