@@ -51,6 +51,7 @@ public class ContestRepository {
         sponsor.setContest_id(rs.getInt("contest_id"));
         sponsor.setUser_id(rs.getInt("user_id"));
         sponsor.setMoney(rs.getInt("money"));
+        sponsor.setSponsor_name(rs.getString("name"));
 
         return sponsor;
     };
@@ -269,15 +270,15 @@ public class ContestRepository {
         HashMap<Integer, List<Sponsor>> all_items_map = new HashMap<>();
         List<Sponsor> all_items_list;
 
-        String sql = "SELECT contest_id, user_id, money FROM sponsor";
+        String sql = "SELECT contest_id, user_id, money, name FROM sponsor NATURAL JOIN user";
         all_items_list = jdbcTemplate.query(sql, sponsorMapper);
 
         for (Sponsor i: all_items_list) {
             if (all_items_map.containsKey(i.getUser_id())) {
-                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getUser_id(), i.getMoney()));
+                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getSponsor_name(), i.getUser_id(), i.getMoney()));
             } else {
                 all_items_map.put(i.getContest_id(), new ArrayList<>());
-                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getUser_id(), i.getMoney()));
+                all_items_map.get(i.getContest_id()).add(new Sponsor(i.getContest_id(), i.getSponsor_name(), i.getUser_id(), i.getMoney()));
             }
         }
         return all_items_map;

@@ -405,4 +405,38 @@ public class QuestionRepository {
         }
         return all_items_map;
     }
+
+    public Boolean likeQuestion(Integer user_id, Integer question_id, Integer point) {
+        Integer result = getQuestionPoint(user_id, question_id);
+
+        if (result == null) {
+            String sql = "INSERT INTO like_question (user_id, question_id, point) VALUES (?, ?, ?)";
+            try {
+                jdbcTemplate.update(sql, user_id, question_id, point);
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+        } else {
+            String sql = "UPDATE like_question SET point = ? WHERE user_id = ? AND question_id = ?";
+            try {
+                jdbcTemplate.update(sql, point, user_id, question_id);
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+        }
+    }
+
+    public Integer getQuestionPoint(Integer user_id, Integer question_id) {
+        String sql = "SELECT point FROM like_question WHERE user_id = ? AND question_id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, int.class, user_id, question_id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

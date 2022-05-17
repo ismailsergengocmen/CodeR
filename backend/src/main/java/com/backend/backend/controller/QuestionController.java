@@ -1,5 +1,6 @@
 package com.backend.backend.controller;
 
+import com.backend.backend.entity.Attempt;
 import com.backend.backend.entity.Challenge;
 import com.backend.backend.entity.NonCodingQuestion;
 import com.backend.backend.entity.Question;
@@ -78,5 +79,15 @@ public class QuestionController {
     @PutMapping("noncoding/update")
     public Boolean updateNonCodingQuestion(@RequestBody NonCodingQuestion nonCodingQuestion) {
         return questionRepository.updateNonCodingQuestion(nonCodingQuestion);
+    }
+
+    @PostMapping("like")
+    public Boolean likeQuestion(@RequestBody Attempt questionUserData) {
+        return questionRepository.likeQuestion(questionUserData.getUser_id(), questionUserData.getQuestion_id(), questionUserData.getPoint());
+    }
+
+    @PostMapping("getlike")
+    public Integer getQuestionPoint(@RequestBody Attempt questionUserData) {
+        return questionRepository.getQuestionPoint(questionUserData.getUser_id(), questionUserData.getQuestion_id());
     }
 }

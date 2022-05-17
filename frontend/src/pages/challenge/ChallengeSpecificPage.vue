@@ -13,12 +13,26 @@
           v-model="pl"
           :options="plOptions"
           label="Programming Language"
-          class="col-3"
+          class="col-4"
         />
-        <div class="q-gutter-x-md col">
-          <q-btn outline label="Old Attempts" @click="showOldAttempts = true" />
-          <q-btn outline label="Forum" />
-          <q-btn outline label="Leaderboard" />
+        <div class="q-gutter-x-md col row">
+          <q-btn
+            outline
+            label="Old Attempts"
+            class="col-auto"
+            @click="showOldAttempts = true"
+          />
+          <q-btn outline label="Forum" class="col-auto" />
+          <q-btn outline label="Leaderboard" class="col-auto" />
+        </div>
+        <div class="q-gutter-y-md col-auto row">
+          <q-rating
+            v-model="questionPoint"
+            size="1.5em"
+            color="grey"
+            class="justify-center"
+            color-selected="black"
+          />
         </div>
       </div>
     </div>
@@ -137,7 +151,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, watch } from "vue";
 import { api } from "../../boot/axios";
 
 export default {
@@ -154,6 +168,7 @@ export default {
     const attemptPoint = ref(null);
     const showOldAttempts = ref(false);
     const oldAttempts = ref([]);
+    const questionPoint = ref(0);
 
     onBeforeMount(async () => {
       const userID = localStorage.getItem("currentUserID");
@@ -176,6 +191,18 @@ export default {
         .then((result) => {
           oldAttempts.value = result.data;
         });
+
+      const userData = {
+        user_id: userID,
+        question_id: props.question_id,
+      };
+      api.post("/api/v1/question/getlike", userData).then((result) => {
+        if (result.data) {
+          questionPoint.value = result.data;
+        } else {
+          questionPoint.value = 0;
+        }
+      });
     });
 
     const submitCode = async () => {
@@ -213,6 +240,16 @@ export default {
       return a[1] + "  --  " + a[0];
     };
 
+    watch(questionPoint, async () => {
+      const userID = localStorage.getItem("currentUserID");
+      const likeData = {
+        question_id: props.question_id,
+        user_id: userID,
+        point: questionPoint.value,
+      };
+      await api.post("api/v1/question/like", likeData);
+    });
+
     return {
       pl,
       plOptions,
@@ -229,6 +266,7 @@ export default {
       pastAttemptIcon,
       pastAttemptStyle,
       styledDateTime,
+      questionPoint,
     };
   },
 };
