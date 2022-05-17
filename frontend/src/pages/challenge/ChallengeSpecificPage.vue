@@ -184,7 +184,7 @@ export default {
         .get(`/api/v1/question/challenge/${props.question_id}`)
         .then((result) => {
           if (result.data === null) {
-            router.push("/home"); // TODO -- bunu questions page route'una çevir
+            router.push("/menu"); // TODO -- bunu questions page route'una çevir
           } else {
             question_title.value = result.data.question_title;
             question_content.value = result.data.question_content;

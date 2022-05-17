@@ -134,7 +134,7 @@ export default {
                     })
                 }
                 else{
-                    router.push('/home');
+                    router.push('/menu');
                 }
                 }).catch(()=> {
                 $q.notify({

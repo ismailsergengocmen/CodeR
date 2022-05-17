@@ -131,41 +131,43 @@ export default {
                 })
             }
             else{
-                finalTime.value = startTime.value.toString()
+                finalTime.value = startTime.value // TODO
                 getQuestionIDs()
+                console.log(questionsID.value)
                 const contestData = {
-                    user_id:localStorage.getItem("currentUserID"),
+                    user_id: localStorage.getItem("currentUserID"),
                     contest_name: contestName,          
-                    description,
+                    description: description.value,
                     start_time: finalTime.value,
-                    duration,
+                    duration: duration,
                     category: categories,
-                    question_id: questionsID,
+                    question_id: questionsID.value,
                     sponsors: []
                 };
+
                 api.post("/api/v1/contest/create", contestData).then((response) => {
-                if(!response.data){
-                    $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"Something wrong"
-                    })
-                }
-                else{
-                    router.push('/home');
-                }
+                    if(!response.data){
+                        $q.notify({
+                        position:"top",
+                        color:"negative",
+                        message:"Something wrong"
+                        })
+                    }
+                    else{
+                        router.push('/menu');
+                    }
                 }).catch(()=> {
-                $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"There was an error"
-                })
+                    $q.notify({
+                        position:"top",
+                        color:"negative",
+                        message:"There was an error while creating contest"
+                    })
                 })
             }
         }
 
-        const createContestHelper = () => {
-            createContest(contestName, startDate, startTime, duration, categories)
+        const createContestHelper = async () => {
+            await createContest(contestName.value, startDate.value, startTime.value, duration.value, categories.value)
         }
 
         const addQuestions = (questionData) => {
@@ -174,6 +176,7 @@ export default {
 
         const getQuestionIDs = () => {
             for (let question in questions.value){
+                console.log(question)
                 api.post("/api/v1/question/challenge/create", question).then((response)=>{
                     if(response.data)
                         questionsID.value.push(response.data)
