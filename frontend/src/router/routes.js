@@ -7,6 +7,8 @@ import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue";
 import JobSeekerInContestPage from "../pages/contest/JobSeekerInContestPage.vue";
 import ChallengeSpecificPage from "../pages/challenge/ChallengeSpecificPage.vue";
 import Error404 from "../pages/Error404";
+import JobSeekerContestScreen from "../pages/contests/JobSeekerContestScreen.vue"
+import LeftMenuLayout from "../layouts/LeftMenuLayout.vue"
 
 const routes = [
   {
@@ -33,6 +35,84 @@ const routes = [
     path: "/createInterview",
     component: CreateInterviewPage,
   },
+  {
+    path: '/~',
+    component: LeftMenuLayout,
+    children: [
+      {
+        path: 'contest',
+        name: 'JobSeekerContestScreen2',
+        component: JobSeekerContestScreen
+      }
+    ]
+  },
+  //   children: [
+  //     {
+  //       path: 'home',
+  //       name: 'Home',
+  //       component: HomePage,
+  //       meta: {
+  //         haveAccess: ['JobSeeker', 'Company', 'Editor'] 
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/~',
+  //   component: BaseLayoutTab,
+  //   children: [
+  //     {
+  //       path: 'challenges',
+  //       name: 'Challenges',
+  //       component: ChallengesPage,
+  //       meta: {
+  //         haveAccess: ['JobSeeker']
+  //       }
+  //     },
+  //     {
+  //       path: 'challenges/:id',
+  //       name: 'ChallengeSpecificPage',
+  //       component: CourseSpecificPage,
+  //       props: true,
+  //       meta: {
+  //         haveAccess: ['JobSeeker']
+  //       }
+  //     },
+  //     {
+  //       path: 'contests',
+  //       name: 'Contests',
+  //       component: ContestsPage,
+  //       meta: {
+  //         haveAccess: ['JobSeeker']
+  //       }
+  //     },
+  //     {
+  //       path: 'contests/:id',
+  //       name: 'ContestSpecificPage',
+  //       component: ContestSpecificPage,
+  //       props: true,
+  //       meta: {
+  //         haveAccess: ['JobSeeker']
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/auth',
+  //   component: BaseIndex,
+  //   children: [
+  //     {
+  //       path: 'login',
+  //       name: 'Login',
+  //       component: Login
+  //     },
+  //     {
+  //       path: 'register',
+  //       name: 'Register',
+  //       component: Register
+  //     }
+  //   ]
+  // },
   {
     path: "/contest/:id",
     name: "JobSeekerInContestPage",
