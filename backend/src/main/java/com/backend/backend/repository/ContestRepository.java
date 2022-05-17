@@ -87,9 +87,16 @@ public class ContestRepository {
         return leaderboardUser;
     };
 
-    public List<Contest> getAllContests() {
-        String sql = "SELECT contest_id, user_id, contest_name, description, start_time, duration, create_date FROM contest";
-        List<Contest> contestList = jdbcTemplate.query(sql, contestMapper);
+    public List<Contest> getAllContests(Integer user_id) {
+        List<Contest> contestList;
+        String sql = "SELECT contest.contest_id, contest.user_id, contest_name, description, start_time, duration, create_date FROM contest";
+        if (user_id != null) {
+            sql += " INNER JOIN enter_contest EC ON contest.contest_id = EC.contest_id WHERE EC.user_id = ?";
+            contestList = jdbcTemplate.query(sql, contestMapper, user_id);
+        }
+        else {
+            contestList = jdbcTemplate.query(sql, contestMapper);
+        }
 
         HashMap<Integer, List<String>> categories = categoryHashMapper();
         HashMap<Integer, List<Sponsor>> sponsors = sponsorHashMapper();

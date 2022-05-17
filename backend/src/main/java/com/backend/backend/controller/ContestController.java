@@ -19,8 +19,8 @@ public class ContestController {
     ContestRepository contestRepository;
 
     @GetMapping("all")
-    public List<Contest> getAllContests() {
-        return contestRepository.getAllContests();
+    public List<Contest> getAllContests(@RequestParam(required = false) Integer user_id) {
+        return contestRepository.getAllContests(user_id);
     }
 
     @GetMapping("{contest_id}")
