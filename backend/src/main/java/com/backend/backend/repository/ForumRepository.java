@@ -78,4 +78,16 @@ public class ForumRepository {
             return null;
         }
     }
+
+    public Integer getForumId(Integer question_id) {
+        String sql = "SELECT forum_id FROM forum WHERE question_id = ?";
+        try {
+            System.out.println("sa");
+            return jdbcTemplate.queryForObject(sql, int.class, question_id);
+        } catch(Exception e) {
+            System.out.println("sa2");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

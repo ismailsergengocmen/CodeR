@@ -22,7 +22,12 @@
             class="col-auto"
             @click="showOldAttempts = true"
           />
-          <q-btn outline label="Forum" class="col-auto" />
+          <q-btn
+            outline
+            label="Forum"
+            :to="`/~/forum/${question_id}`"
+            class="col-auto"
+          />
           <q-btn outline label="Leaderboard" class="col-auto" />
         </div>
         <div class="q-gutter-y-md col-auto row">
@@ -152,12 +157,14 @@
 
 <script>
 import { ref, onBeforeMount, watch } from "vue";
+import { useRouter } from "vue-router";
 import { api } from "../../boot/axios";
 
 export default {
   name: "ChallengeSpecificPage",
   props: ["question_id"],
   setup(props) {
+    const router = useRouter();
     const pl = ref("C++");
     const plOptions = ["C++", "C", "Java", "Python3", "Javascript", "Fortran"];
     const question_title = ref("");

@@ -26,6 +26,11 @@ public class ForumController {
         return forumRepository.getForumWithId(question_id);
     }
 
+    @GetMapping("getid/{question_id}")
+    public Integer getForumId(@PathVariable Integer question_id) {
+        return forumRepository.getForumId(question_id);
+    }
+
     @PostMapping("create")
     public Integer createForum(@RequestBody Forum forum) {
         forum.setCreate_date(LocalDateTime.now().withNano(0));
