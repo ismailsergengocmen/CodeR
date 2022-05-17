@@ -87,11 +87,19 @@ public class ContestRepository {
         return leaderboardUser;
     };
 
-    public List<Contest> getAllContests(Integer user_id) {
+    public List<Contest> getAllContests(Integer user_id, boolean entered) {
         List<Contest> contestList;
         String sql = "SELECT contest.contest_id, contest.user_id, contest_name, description, start_time, duration, create_date FROM contest";
         if (user_id != null) {
-            sql += " INNER JOIN enter_contest EC ON contest.contest_id = EC.contest_id WHERE EC.user_id = ?";
+            if (entered) {
+                sql += " INNER JOIN enter_contest EC ON contest.contest_id = EC.contest_id WHERE EC.user_id = ?";
+            } else {
+                sql = "SELECT contest_id, contest.user_id, contest_name, description, start_time, duration, create_date " +
+                        "FROM contest " +
+                        "WHERE contest_id NOT IN (SELECT contest.contest_id " +
+                                                    "FROM contest INNER JOIN enter_contest EC ON contest.contest_id = EC.contest_id " +
+                                                    "WHERE EC.user_id = ?)";
+            }
             contestList = jdbcTemplate.query(sql, contestMapper, user_id);
         }
         else {

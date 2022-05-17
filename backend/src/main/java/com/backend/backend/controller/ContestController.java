@@ -19,8 +19,8 @@ public class ContestController {
     ContestRepository contestRepository;
 
     @GetMapping("all")
-    public List<Contest> getAllContests(@RequestParam(required = false) Integer user_id) {
-        return contestRepository.getAllContests(user_id);
+    public List<Contest> getAllContests(@RequestParam(required = false) Integer user_id, @RequestParam(defaultValue = "false") boolean entered) {
+        return contestRepository.getAllContests(user_id, entered);
     }
 
     @GetMapping("{contest_id}")
