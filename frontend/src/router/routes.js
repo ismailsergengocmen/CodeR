@@ -1,14 +1,27 @@
 import Login from "../pages/auth/Login.vue";
 import Register from "../pages/auth/Register.vue";
-import CreateChallengePage from "../pages/challenge/CreateChallengePage.vue";
-import CreateContestPage from "../pages/contest/CreateContestPage.vue";
-import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue";
-import JobSeekerInContestPage from "../pages/contest/JobSeekerInContestPage.vue";
-import ChallengeSpecificPage from "../pages/challenge/ChallengeSpecificPage.vue";
+
+import ChallengesPage from "../pages/challenge/ChallengesPage.vue"; //jobseeker can see
+import ChallengeSpecificPage from "../pages/challenge/ChallengeSpecificPage.vue"; //JS
+import CreateChallengePage from "../pages/challenge/CreateChallengePage.vue"; //Editor
+
+import CompanySponsorContestPage from "../pages/contest/CompanySponsorContestPage.vue"; //Company
+import ContestLeaderboardPage from "../pages/contest/ContestLeaderboardPage.vue"; //JS
+import CreateContestPage from "../pages/contest/CreateContestPage.vue"; //Editor
+import JobSeekerInContestPage from "../pages/contest/JobSeekerInContestPage.vue"; //JS
+
+import JobSeekerContestScreen from "../pages/contests/JobSeekerContestScreen.vue"; //JS
+import JobSeekerMyContestScreen from "../pages/contests/JobSeekerMyContestScreen.vue"; //JS
+
+import CompanyInterviewPage from "../pages/interview/CompanyInterviewPage.vue"; //Company
+import CompanyInterviewResult from "../pages/interview/CompanyInterviewResult.vue"; //company
+import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue"; //company
+import JobSeekerInterviewPage from "../pages/interview/JobSeekerInterviewPage.vue"; //JS
+
+
 import Error404 from "../pages/Error404";
-import JobSeekerContestScreen from "../pages/contests/JobSeekerContestScreen.vue"
-import LeftMenuLayout from "../layouts/LeftMenuLayout.vue"
-import ChallengesPage from "../pages/challenge/ChallengesPage.vue"
+import LeftMenuLayout from "../layouts/LeftMenuLayout.vue";
+
 
 const routes = [
   {
@@ -20,12 +33,6 @@ const routes = [
     component: Login,
   },
   {
-    path: "/challenge/:question_id",
-    name: "ChallengeSpecificPage",
-    component: ChallengeSpecificPage,
-    props: true,
-  },
-  {
     path: '/~',
     component: LeftMenuLayout,
     children: [
@@ -35,9 +42,25 @@ const routes = [
         component: JobSeekerContestScreen
       },
       {
+        path: 'mycontest',
+        name: 'JobSeekerMyContestScreen',
+        component: JobSeekerMyContestScreen
+      },
+      {
+        path: 'jsInterviewPage',
+        name: 'JobSeekerInterviewPage',
+        component: JobSeekerInterviewPage
+      },
+      {
         path: "contest/:id",
         name: "JobSeekerInContestPage",
         component: JobSeekerInContestPage,
+        props: true,
+      },
+      {
+        path: "challenge/:question_id",
+        name: "ChallengeSpecificPage",
+        component: ChallengeSpecificPage,
         props: true,
       },
       {
@@ -55,6 +78,18 @@ const routes = [
       {
         path: "createInterview",
         component: CreateInterviewPage,
+      },
+      {
+        path: "cInterviews",
+        component: CompanyInterviewPage,
+      },
+      {
+        path: "cInterviewResults",
+        component: CompanyInterviewResult,
+      },
+      {
+        path: "cSponsorContest",
+        component: CompanySponsorContestPage,
       }
     ]
   },

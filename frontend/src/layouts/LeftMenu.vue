@@ -25,7 +25,14 @@
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to="/~/contest" > <!--BUNUN SAYFASI YOK DAHA-->
+            <router-link to="/~/cInterviews" >
+                 <q-item clickable v-ripple style="min-height: 35px;">
+                    <q-item-section class="q-ml-sm">
+                        <q-btn color="grey" label="Interviews" class="q-mr-lg"/>
+                    </q-item-section>
+                </q-item>
+            </router-link>
+            <router-link to="/~/cSponsorContest" > <!--BUNUN SAYFASI YOK DAHA-->
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Sponsor Contest" class="q-mr-lg"/>
@@ -63,7 +70,7 @@
                     </q-item-section>
                 </q-item>
             </router-link>
-            <router-link to= "/~/contest/4">
+            <router-link to= "/~/jsInterviewPage">
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Interviews" class="q-mr-lg"/>

@@ -1,9 +1,7 @@
 package com.backend.backend.controller;
 
-import com.backend.backend.entity.Attempt;
-import com.backend.backend.entity.Challenge;
-import com.backend.backend.entity.NonCodingQuestion;
-import com.backend.backend.entity.Question;
+import com.backend.backend.entity.*;
+import com.backend.backend.repository.ForumRepository;
 import com.backend.backend.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +16,9 @@ import java.util.List;
 public class QuestionController {
     @Autowired
     QuestionRepository questionRepository;
+
+    @Autowired
+    ForumRepository forumRepository;
 
     @GetMapping("all")
     public List<Question> getAllQuestions(@RequestParam(required = false) List<String> category, @RequestParam(required = false) List<Integer> difficulty) {
@@ -42,10 +43,12 @@ public class QuestionController {
     @PostMapping("challenge/create")
     public Integer createChallenge(@RequestBody Challenge challenge) {
         challenge.setCreate_date(LocalDateTime.now().withNano(0));
-
         try {
-            return questionRepository.createChallenge(challenge);
+            int challenge_id = questionRepository.createChallenge(challenge);
+            forumRepository.createForum(new Forum(challenge_id, LocalDateTime.now().withNano(0), challenge.getQuestion_title() + "'s Forum", null));
+            return challenge_id;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -72,6 +75,7 @@ public class QuestionController {
         try {
             return questionRepository.createNonCodingQuestion(nonCodingQuestion);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }

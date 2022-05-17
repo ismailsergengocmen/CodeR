@@ -12,8 +12,7 @@ public class Forum {
 
     public Forum() {}
 
-    public Forum(Integer forum_id, Integer question_id, LocalDateTime create_date, String title, List<Post> posts) {
-        this.forum_id = forum_id;
+    public Forum(Integer question_id, LocalDateTime create_date, String title, List<Post> posts) {
         this.question_id = question_id;
         this.create_date = create_date;
         this.title = title;

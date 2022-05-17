@@ -32,7 +32,7 @@
                             <q-separator vertical inset class="q-pa-md"/>
                         </div>
                         <div>
-                            <q-btn label="Begin" :to="`${question.question_id}`" class="q-pa-sm"/>  
+                            <q-btn label="Begin" :to="`/~/challenge/${question.question_id}`" class="q-pa-sm"/>  
                         </div>
                     </div>
                 </div> 
