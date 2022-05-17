@@ -2,13 +2,13 @@
 <div>
     <div class="fixed-top-center q-pa-md">
             <q-banner class="bg-grey text-white" dense>
-                <span class="row justify-center">New Contests</span>
+                <span class="row justify-center">My Contests</span>
             </q-banner>
     </div>
     <div class="q-pa-md">
         <div class="row justify-center">
-            <router-link to="/~/mycontest" >
-                <q-btn color="grey" label="Go To My Contests" class="q-mr-lg"/>
+            <router-link to="/~/contest" >
+                <q-btn color="grey" label="Go To New Contests" class="q-mr-lg"/>
             </router-link>
         </div>
     </div>
@@ -85,7 +85,7 @@
             
                     <div class="col">
                         <q-btn 
-                        label="Join This Contest" @click="enterContest(contest.contest_id)"/>
+                        label="Go to Contest" :to="`contest/${contest.contest_id}`"/>
                     </div>
 
                 </q-form>
@@ -109,12 +109,14 @@ export default {
     name: "ChallengeFilter",
 
     setup(ctx){
-        const $q = useQuasar();
-        const router = useRouter();
         const currentName = ref("");
+        const $q = useQuasar();
+
         const contests = ref([]);
+        const sponsorss = ref([]);
+
         const filteredSlots = computed(() => {
-            return true;
+        return true;
         });
 
         watch(currentName, (newVal) => {
@@ -124,39 +126,16 @@ export default {
         //new part
         onBeforeMount(() => {
             const userID = localStorage.getItem("currentUserID");
-            api.get(`api/v1/contest/all?user_id=${userID}&entered=false`).then((response) => {
+            api.get(`api/v1/contest/all?user_id=${userID}&entered=true`).then((response) => {
+                console.log(`api/v1/contest/all?user_id=${userID}&entered=true`);
+                console.log(response.data);
                 contests.value = response.data;
         })})
-
-        const enterContest = (contestId) => {
-            const userID = localStorage.getItem("currentUserID");
-            const contestData = {
-                contest_id: contestId,
-                user_id: userID
-            };
-            api.post('api/v1/contest/enter', contestData).then((result) => {
-                if (result.data) {
-                    $q.notify({
-                        position:"top",
-                        color:"positive",
-                        message:"Contest entered successfully"
-                    })
-                    router.push(`contest/${contestId}`);
-                } else {
-                    $q.notify({
-                        position:"top",
-                        color:"negative",
-                        message:"There was a problem while entering the contest"
-                    })
-                }
-            })
-        }
-
         return{
             currentName,
             filteredSlots,
             contests,
-            enterContest
+            sponsorss
         }
     }
 }

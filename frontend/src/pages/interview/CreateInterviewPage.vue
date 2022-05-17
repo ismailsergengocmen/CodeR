@@ -123,7 +123,7 @@ export default {
                     start_date: finalTime.value,
                     duration,
                     user_id:localStorage.getItem("currentUserID"),
-                    question_id: questionsID,
+                    question_ids: questionsID,
                 };
                 api.post("/api/v1/interview/create", interviewData).then((response) => {
                 if(!response.data){
