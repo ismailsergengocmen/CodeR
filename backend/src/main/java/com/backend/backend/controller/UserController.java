@@ -26,7 +26,7 @@ public class UserController {
         return userRepository.findUserWithId(user_id);
     }
 
-    @GetMapping("{user_type}")
+    @GetMapping("type/{user_id}")
     public String findUserType(@PathVariable int user_id) {
         return userRepository.findUserType(user_id);
     }
