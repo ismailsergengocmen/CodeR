@@ -53,7 +53,7 @@
         </div>
         <span v-if ="questionType == false" class="label bg-grey text-white q-mx-md q-pa-xs row justify-center">Test-Cases</span>
         <q-separator class="q-ma-md" />
-        <div class="q-pa-md">
+        <div v-if ="questionType == false" class="q-pa-md">
             <span class="label bg-white text-black">TestCase Count</span>
             <div class="row full-width">
                 <q-input
