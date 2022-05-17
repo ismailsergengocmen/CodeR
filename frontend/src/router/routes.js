@@ -18,6 +18,7 @@ import CompanyInterviewResult from "../pages/interview/CompanyInterviewResult.vu
 import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue"; //company
 import JobSeekerInterviewPage from "../pages/interview/JobSeekerInterviewPage.vue"; //JS
 
+import ForumPage from "../pages/forum/ForumPage.vue";
 
 import Error404 from "../pages/Error404";
 import LeftMenuLayout from "../layouts/LeftMenuLayout.vue";
@@ -37,28 +38,28 @@ const routes = [
     component: LeftMenu,
   },
   {
-    path: '/~',
+    path: "/~",
     component: LeftMenuLayout,
     children: [
       {
-        path: 'contest',
-        name: 'JobSeekerContestScreen',
-        component: JobSeekerContestScreen
+        path: "contest",
+        name: "JobSeekerContestScreen",
+        component: JobSeekerContestScreen,
       },
       {
-        path: 'mycontest',
-        name: 'JobSeekerMyContestScreen',
-        component: JobSeekerMyContestScreen
+        path: "mycontest",
+        name: "JobSeekerMyContestScreen",
+        component: JobSeekerMyContestScreen,
       },
       {
-        path: 'leaderboard',
-        name: 'ContestLeaderboardPage',
-        component: ContestLeaderboardPage
+        path: "leaderboard",
+        name: "ContestLeaderboardPage",
+        component: ContestLeaderboardPage,
       },
       {
-        path: 'jsInterviewPage',
-        name: 'JobSeekerInterviewPage',
-        component: JobSeekerInterviewPage
+        path: "jsInterviewPage",
+        name: "JobSeekerInterviewPage",
+        component: JobSeekerInterviewPage,
       },
       {
         path: "contest/:id",
@@ -70,6 +71,12 @@ const routes = [
         path: "challenge/:question_id",
         name: "ChallengeSpecificPage",
         component: ChallengeSpecificPage,
+        props: true,
+      },
+      {
+        path: "forum/:question_id",
+        name: "ForumPage",
+        component: ForumPage,
         props: true,
       },
       {
@@ -99,8 +106,8 @@ const routes = [
       {
         path: "cSponsorContest",
         component: CompanySponsorContestPage,
-      }
-    ]
+      },
+    ],
   },
   //   children: [
   //     {
@@ -108,7 +115,7 @@ const routes = [
   //       name: 'Home',
   //       component: HomePage,
   //       meta: {
-  //         haveAccess: ['JobSeeker', 'Company', 'Editor'] 
+  //         haveAccess: ['JobSeeker', 'Company', 'Editor']
   //       }
   //     }
   //   ]
