@@ -19,21 +19,21 @@
         <div class="column">
             <!--Company -->
             <router-link to="/~/createInterview" >
-                 <q-item clickable v-ripple style="min-height: 35px;">
+                 <q-item v-if="roleCheck('Company')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Create Interview" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
             <router-link to="/~/cInterviews" >
-                 <q-item clickable v-ripple style="min-height: 35px;">
+                 <q-item v-if="roleCheck('Company')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Interviews" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
             <router-link to="/~/cSponsorContest" > <!--BUNUN SAYFASI YOK DAHA-->
-                <q-item clickable v-ripple style="min-height: 35px;">
+                <q-item v-if="roleCheck('Company')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Sponsor Contest" class="q-mr-lg"/>
                     </q-item-section>
@@ -42,14 +42,14 @@
 
             <!--Editor -->
             <router-link to="/~/createQuestion" >
-                <q-item clickable v-ripple style="min-height: 35px;">
+                <q-item v-if="roleCheck('Editor')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Create Question" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
             <router-link to= "/~/createContest">
-                <q-item clickable v-ripple style="min-height: 35px;">
+                <q-item v-if="roleCheck('Editor')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Create Contest" class="q-mr-lg"/>
                     </q-item-section>
@@ -57,21 +57,21 @@
             </router-link>
             <!--Job Seeker-->
             <router-link to= "/~/challenges">
-                <q-item clickable v-ripple style="min-height: 35px;">
+                <q-item v-if="roleCheck('JobSeeker')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Challenges" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
             <router-link to= "/~/contest">
-                <q-item clickable v-ripple style="min-height: 35px;">
+                <q-item v-if="roleCheck('JobSeeker')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Contests" class="q-mr-lg"/>
                     </q-item-section>
                 </q-item>
             </router-link>
             <router-link to= "/~/jsInterviewPage">
-                <q-item clickable v-ripple style="min-height: 35px;">
+                <q-item v-if="roleCheck('JobSeeker')" clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Interviews" class="q-mr-lg"/>
                     </q-item-section>
@@ -104,19 +104,38 @@
 </template>
 
 <script>
+import { ref, onBeforeMount } from "@vue/runtime-core"
+import { useRouter } from "vue-router"
+import { useQuasar } from "quasar"
+import { api } from "../boot/axios"
+
 export default {
   name: 'LeftMenu',
-   setup(ctx) {
-       const toggleDrawer = () => {
 
+  setup(ctx) {
+        const $q = useQuasar();
+        const router = useRouter();
+        const currentUser = ref(null)
+
+       onBeforeMount(() => {
+           const userID = localStorage.getItem("currentUserID");
+           api.get(`api/v1/user/type/${userID}`).then((response) => {
+            if (response.data) {
+                currentUser.value = response.data;
+            }})
+       }) 
+
+       const roleCheck = (role) => {
+           return currentUser.value === role; 
        }
        
-    const logout = () => {
+       const logout = () => {
         ctx.emit('logout');
       }
       return {
-        toggleDrawer,
-        logout
+        logout,
+        roleCheck,
+        currentUser
       }
    },
 }

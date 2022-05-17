@@ -91,7 +91,7 @@ export default {
             } else {
               // Add user_id to localStorage
               localStorage.setItem("currentUserID", response.data);
-              router.push("/home");
+              router.push("/menu");
             }
           })
           .catch(() => {

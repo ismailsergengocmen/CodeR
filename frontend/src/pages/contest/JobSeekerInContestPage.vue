@@ -1,4 +1,8 @@
 <template>
+<div>
+    <div>
+        <q-btn label="Go to LeaderBoard" class="q-pa-sm"/>  
+    </div>
     <div class="full-height">
         <div class="fixed-top-center q-pa-md">
             <q-banner class="bg-grey text-white" dense>
@@ -39,7 +43,7 @@
             </q-scroll-area>
         </div>
     </div>
-
+</div>
 </template>
 
 
