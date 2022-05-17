@@ -87,16 +87,6 @@ public class UserRepository {
         return userType;
     }
 
-
-
-
-
-
-
-
-
-
-
     public Integer isUserExists(User user) {
         String sql = "SELECT user_id, password FROM user WHERE email = ?";
 

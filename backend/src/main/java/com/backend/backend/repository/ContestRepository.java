@@ -136,7 +136,7 @@ public class ContestRepository {
              contest.setQuestion_ids(question_ids);
 
              // Add the contests sponsors
-             sql = "SELECT contest_id, user_id, money FROM sponsor WHERE contest_id = ?";
+             sql = "SELECT contest_id, user_id, money, name FROM sponsor NATURAL JOIN user WHERE contest_id = ? ";
              List<Sponsor> sponsors = jdbcTemplate.query(sql, sponsorMapper, contest_id);
              contest.setSponsors(sponsors);
 

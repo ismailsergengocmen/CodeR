@@ -52,13 +52,13 @@ public class ForumRepository {
         return jdbcTemplate.query(sql, forumMapper);
     }
 
-    public Forum getForumWithId(Integer forum_id) {
-        String sql = "SELECT forum_id, question_id, create_date, title FROM forum WHERE forum_id = ?";
+    public Forum getForumWithId(Integer question_id) {
+        String sql = "SELECT forum_id, question_id, create_date, title FROM forum WHERE question_id = ?";
         try {
-            Forum forum = jdbcTemplate.queryForObject(sql, forumMapper, forum_id);
+            Forum forum = jdbcTemplate.queryForObject(sql, forumMapper, question_id);
 
             sql = "SELECT post_id, forum_id, user_id, create_date, title, content FROM post WHERE forum_id = ?";
-            List<Post> posts = jdbcTemplate.query(sql, postMapper, forum_id);
+            List<Post> posts = jdbcTemplate.query(sql, postMapper, forum.getForum_id());
             forum.setPosts(posts);
             return forum;
         } catch (EmptyResultDataAccessException e) {

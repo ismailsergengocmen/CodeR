@@ -21,9 +21,9 @@ public class ForumController {
         return forumRepository.getAllForums();
     }
 
-    @GetMapping("{forum_id}")
-    public Forum getForumWithId(@PathVariable Integer forum_id) {
-        return forumRepository.getForumWithId(forum_id);
+    @GetMapping("{question_id}")
+    public Forum getForumWithId(@PathVariable Integer question_id) {
+        return forumRepository.getForumWithId(question_id);
     }
 
     @PostMapping("create")
