@@ -2,7 +2,7 @@
   <div class="q-pa-xl column items-center">
     <q-card class="column items-center q-pa-xl">
       <q-img 
-        src="../../assets/logo_bildemic.png"
+        src="../../assets/logo_coder.png"
         fit="fill"
         width="320px"
         class="q-mb-md"
