@@ -1,54 +1,63 @@
 <template>
-  <div>
+<div>
     <div class="full-height">
-      <div class="fixed-top-center q-pa-md">
-        <q-banner class="bg-grey text-white" dense>
-          <span class="row justify-center"> {{ contestName }} </span>
-        </q-banner>
-        <q-btn
-          label="Go to LeaderBoard"
-          :to="`/~/leaderboard/${id}`"
-          class="q-pa-sm"
-        />
-      </div>
-      <div class="row bordered justify-around q-pa-sm">
-        <div>
-          <span class="label bg-white text-black">Start Date</span>
-          <span class="row justify-center"> {{ contestDate }} </span>
+        <div class="fixed-top-center q-pa-md">
+            <q-banner class="bg-grey text-white" dense>
+                <span class="row justify-center"> {{contestName}} </span>
+            </q-banner>
         </div>
-        <div>
-          <span class="label bg-white text-black">Categories</span>
-          <span class="row justify-center"> {{ contestCategories }} </span>
-        </div>
-      </div>
-      <div class="row justify-content">
-        <span class="label bg-white text-black">Questions</span>
-        <q-scroll-area visible style="height: 300px" class="col" ref="firstRef">
-          <div
-            v-for="question in contestQuestions"
-            :key="question.question_id"
-            class="q-pa-sm"
-          >
-            <div class="row justify-content">
-              <div>
-                <span class="label bg-white text-black">
-                  {{ question.question_title }}
-                </span>
-              </div>
-              <div>
-                <q-separator vertical inset class="q-pa-md" />
-              </div>
-              <div>
-                <q-btn
-                  label="Begin"
-                  :to="`/~/challenge/${question.question_id}`"
-                  class="q-pa-sm"
-                />
-              </div>
+
+        <div class="row bordered justify-around q-pa-sm">
+            <div>
+                <span class="label bg-white text-black">Start Date</span>
+                <span class="row justify-center"> {{contestDate}} </span>
             </div>
-          </div>
+            <div>
+                <span class="label bg-white text-black">Categories</span>
+                <span class="row justify-center"> {{contestCategories}} </span>
+            </div>
+        </div>
+
+        <div class="q-pa-md">
+        <div class="row justify-center">
+        <q-field outlined style="width: 50%;" color="black">
+        <q-scroll-area
+            visible
+            style="height: 200px;" 
+            style2= "weight: 200px;"
+            class="col"
+            ref="firstRef"
+            >
+            <span class="label bg-white text-black">Questions</span>
+            
+            <q-scroll-area
+            visible
+            style="height: 500px;" 
+            style2= "weight: 200px;"
+            class="col"
+            ref="firstRef"
+            >
+                <div v-for="question in contestQuestions" :key="question.question_id" class="q-pa-sm">
+                    <div class="row justify-content">
+
+                    <q-form class="q-gutter-y-sm q-px-sm q-py-sm full-width" >  
+                        <div class="q-pa-sm">
+                            <div class="row justify-between">
+                            <span class="label bg-white text-black"> {{ question.question_title }} </span>
+
+                    
+                            <q-btn label="Begin" :to="`/~/challenge/${question.question_id}`" class="q-pa-sm"/>  
+                        </div>
+                        </div>
+                    </q-form>
+                        
+                    </div>
+                </div> 
+            </q-scroll-area>
         </q-scroll-area>
-      </div>
+    </q-field>
+    </div>
+    </div>
     </div>
   </div>
 </template>

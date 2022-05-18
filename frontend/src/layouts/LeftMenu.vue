@@ -81,7 +81,7 @@
          
         <!--General -->
         <div class="fixed-bottom q-mb-sm">
-            <router-link to="/register">            
+            <router-link to="/menu">            
                 <q-item clickable v-ripple style="min-height: 35px;">
                     <q-item-section class="q-ml-sm">
                         <q-btn color="grey" label="Options" class="q-mr-lg"/>

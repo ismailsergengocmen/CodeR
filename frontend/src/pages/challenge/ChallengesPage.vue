@@ -26,32 +26,45 @@
       <q-btn label="Apply Filters" @click="applyFilter" class="q-ma-md" />
     </div>
 
-    <div>
-      <q-scroll-area visible style="height: 300px" class="col" ref="firstRef">
+    <div class="q-pa-md">
+        <div class="row justify-center">
+            <q-field outlined style="width: 50%;" color="black">
+                <q-scroll-area
+                    visible
+                    style="height: 500px;" 
+                    style2= "weight: 200px;"
+                    class="col"
+                    ref="firstRef"
+                    >
         <div
           v-for="challenge in challenges"
           :key="challenge.interview_id"
           class="q-pa-sm"
         >
-          <div class="row justify-content">
-            <div>
-              <span class="label bg-white text-black">
-                {{ challenge.question_title }}
-              </span>
-            </div>
-            <div>
-              <q-separator vertical inset />
-            </div>
-            <div>
-              <q-separator vertical inset />
-            </div>
-            <div>
-              <q-btn label="Begin" :to="`challenge/${challenge.question_id}`" />
-            </div>
+        <div class="row justify-center">
+            <q-form class="q-gutter-y-sm q-px-sm q-py-sm full-width" >
+              <q-field 
+                outlined 
+                stack-label
+                color="grey"
+              >
+              <template v-slot:control>
+              
+                <div class="row justify-between">
+                  <span class="q-pa-md"> {{ challenge.question_title }} </span>
+
+                  <q-btn label="Begin" :to="`challenge/${challenge.question_id}`" />
+                </div>
+              
+              </template>
+            </q-field>
+            </q-form>
           </div>
         </div>
       </q-scroll-area>
-    </div>
+            </q-field>
+        </div>
+        </div>
   </div>
 </template>
 

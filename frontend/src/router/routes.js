@@ -70,7 +70,7 @@ const routes = [
       },
       {
         path: "interview/:id",
-        name: "JobSeekerInınterviewPage",
+        name: "JobSeekerInInterviewPage",
         component: JobSeekerInInterviewPage,
         props: true,
       },

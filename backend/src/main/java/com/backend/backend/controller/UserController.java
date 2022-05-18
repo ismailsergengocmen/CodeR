@@ -31,6 +31,16 @@ public class UserController {
         return userRepository.findUserType(user_id);
     }
 
+    @GetMapping("userid_email/{email}")
+    public Integer getUserIdFromEmail(@PathVariable String email) {
+        try {
+            return userRepository.getUserIdFromMail(email);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     @PostMapping("all")
     public Boolean addNewUser(@RequestBody User user) {
         try {

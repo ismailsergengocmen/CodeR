@@ -73,6 +73,11 @@ public class UserRepository {
         }
     }
 
+    public Integer getUserIdFromMail(String email) {
+        String sql = "SELECT user_id FROM user WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, int.class, email);
+    }
+
     public String findUserType(int user_id){
         String userType = "";
         if(jobSeekerRepository.findJobSeekersWithId(user_id) != null){
