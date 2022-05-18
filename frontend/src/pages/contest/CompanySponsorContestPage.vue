@@ -5,7 +5,7 @@
                 <span class="row justify-center"> Current Contests </span>
             </q-banner>
         </div>
-        <div>
+        <div class="row justify-center">
             <q-input
                 v-model="currentName"
                 debounce="1500"
@@ -20,38 +20,49 @@
             </q-input>
         </div>
         <div>
-            <q-scroll-area
-                visible
-                style="height: 300px;"
-                class="col"
-                ref="firstRef"
-                >
-                <div v-for="contest in contests" :key="contest.contest_id" class="q-pa-sm">
-                    <div class="row justify-content">
-                        <div>
-                            <span class="label bg-white text-black"> {{ contest.contest_name }} </span>
+        <div class="q-pa-md">
+        <div class="row justify-center">
+            <q-field outlined style="width: 50%;" color="black">
+                <q-scroll-area
+                    visible
+                    style="height: 500px;" 
+                    style2= "weight: 200px;"
+                    class="col"
+                    ref="firstRef"
+                    >
+                    <div v-for="contest in contests" :key="contest.contest_id" class="q-pa-sm">
+                        <div class="row justify-center">
+                            <q-form class="q-gutter-y-sm q-px-sm q-py-sm full-width" >
+                                <q-field 
+                                    outlined 
+                                    stack-label
+                                    color="grey"
+                                    >
+                                    <template v-slot:control>
+                                        <div class= "q-pa-sm">
+
+                                                <span class="q-pa-md"> {{ contest.contest_name }} </span>
+                                                
+                                                <span class="q-pa-md"> {{ contest.start_time }} </span>
+                                                
+                                                <q-btn class="q-pa-sm" label="Sponsor" @click="sponsorContest(contest.contest_id)"/>  
+                                            
+                                        </div>
+                                </template>
+                            </q-field>
+                            </q-form>
                         </div>
-                        <div>
-                            <q-separator vertical inset />
-                        </div>
-                        <div>
-                            <span class="label bg-white text-black"> {{ contest.start_time }} </span>
-                        </div>
-                        <div>
-                            <q-separator vertical inset />
-                        </div>
-                        <div>
-                            <q-btn label="Sponsor" @click="sponsorContest(contest.contest_id)"/>  
-                        </div>
-                    </div>
-                </div> 
-            </q-scroll-area>
+                    </div> 
+                </q-scroll-area>
+            </q-field>
+        </div>
+        </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref } from "vue"
+import { ref, onBeforeMount } from "vue"
 import { useRouter } from "vue-router"
 import { useQuasar } from "quasar"
 import { api } from "../../boot/axios"
@@ -68,21 +79,11 @@ export default {
         const currentSponsors = ref([])
         const currentUser = ref([])
 
-        const getContests = () => {
-            const user_id = localStorage.getItem("currentUserID")
+        //new part
+        onBeforeMount(() => {
             api.get(`api/v1/contest/all`).then((response) => {
-                if(!response.data){
-                    $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"Something wrong"
-                    })
-                }
-                else{
-                    contests.value = response.data
-                }
-            })
-        }
+                contests.value = response.data;
+        })})
 
         const sponsorContest = (contest_id) => {
             const user_id = localStorage.getItem("currentUserID")
@@ -99,40 +100,32 @@ export default {
                     })
                 }
             })
+            const newSponsor = {
+                user_id,
+                contest_id,
+                money: 500
 
-            api.get(`api/v1/contest/${user_id}`).then((response) => {
-                if(response.data){
-                    currentUser.value = response.data
-                }
-                else{
-                    $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"Can't get user in sponsorContest"
-                    })
-                }
-            })
-
-            currentSponsors.value.push(currentUser.value)
-
+            }
+            currentSponsors.value.push(newSponsor)
+            
             const contestData = {  
                 contest_id,
                 sponsors: currentSponsors.value,
             };
 
-            api.push("api/v1/contest/update", contestData).then((response) => {
+            api.put("api/v1/contest/update", contestData).then((response) => {
                 if(response.data){
                     $q.notify({
-                    position:"top",
-                    color:"positive",
-                    message:"Succesfully sponsored"
+                        position:"top",
+                        color:"positive",
+                        message:"Succesfully sponsored"
                     })
                 }
                 else{
                     $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"Can not be sponsored"
+                        position:"top",
+                        color:"negative",
+                        message:"Can not be sponsored"
                     })
                 }
             })
@@ -141,7 +134,6 @@ export default {
         return {
             currentName,
             contests,
-            getContests,
             sponsorContest
         }
     },
