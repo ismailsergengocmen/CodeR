@@ -28,7 +28,7 @@
             :to="`/~/forum/${question_id}`"
             class="col-auto"
           />
-          <q-btn outline label="Leaderboard" class="col-auto" />
+          <!-- <q-btn outline label="Leaderboard" class="col-auto" /> -->
         </div>
         <div class="q-gutter-y-md col-auto row">
           <q-rating
