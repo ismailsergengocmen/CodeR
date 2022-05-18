@@ -19,7 +19,10 @@
                 </template>
             </q-input>
         </div>
-        <div>
+
+        <div class="q-pa-md">
+        <div class="row justify-center">
+        <q-field outlined style="width: 50%;" color="black">
             <q-scroll-area
                 visible
                 style="height: 300px;"
@@ -27,26 +30,20 @@
                 ref="firstRef"
                 >
                 <div v-for="interview in interviews" :key="interview.interview_id" class="q-pa-sm">
-                    <div class="row justify-content">
-                        <div>
+                    <div class="row justify-between">
+                        
                             <span class="label bg-white text-black"> {{ interview.title }} </span>
-                        </div>
-                        <div>
-                            <q-separator vertical inset />
-                        </div>
-                        <div>
+                        
                             <span class="label bg-white text-black"> {{ interview.start_date }} </span>
-                        </div>
-                        <div>
-                            <q-separator vertical inset />
-                        </div>
-                        <div>
+                        
                             <q-btn label="Begin" :to="`${interview.interview_id}`"/>  
-                        </div>
+                        
                     </div>
                 </div> 
             </q-scroll-area>
-        </div>
+        </q-field>
+    </div>
+    </div>
     </div>
 </template>
 
