@@ -1,58 +1,55 @@
 <template>
   <div>
-    <div class="q-pa-md">
-      <q-banner dense label="Challenges" class="text-white bg-grey">
-        <span class="row justify-center"> Company Interviews </span>
-      </q-banner>
-    </div>
     <div>
-        <div class= "q-pa-md">
-            <q-banner dense label="Challenges" class="text-white bg-grey">
-                <span class="row justify-center"> Company Interviews </span>
-            </q-banner>
-        </div>
-        <div>
-            <q-input
-                v-model="currentName"
-                debounce="1500"
-                outlined
-                dense
-                placeholder='Search'
-                color="secondary"
-            >
-                <template v-slot:prepend>
-                    <q-icon name="search" />
-                </template>
-            </q-input>
-        </div>
+      <div class="q-pa-md">
+        <q-banner dense label="Challenges" class="text-white bg-grey">
+          <span class="row justify-center"> Company Interviews </span>
+        </q-banner>
+      </div>
+      <div>
+        <q-input
+          v-model="currentName"
+          debounce="1500"
+          outlined
+          dense
+          placeholder="Search"
+          color="secondary"
+        >
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
 
-        <div class="q-pa-lg">
+      <div class="q-pa-lg">
         <div class="row justify-center">
-            
-    <q-field outlined style="width: 50%;" color="black">
+          <q-field outlined style="width: 50%" color="black">
             <q-scroll-area
-                visible
-                style="height: 300px;"
-                class="col"
-                ref="firstRef"
-                >
-                <div v-for="interview in interviews" :key="interview.interview_id" class="q-pa-md">
-                    <div class="row justify-between">
-                        
-                            <span class="q-pa-sm"> {{ interview.title }} </span>
-                        
-                            <span class="q-pa-sm"> {{ interview.start_date }} </span>
-                        
-                            <q-btn label="See" :to="`/~/cInterviewResults/${interview.interview_id}`"/>  
-                        
-                    </div>
-                </div> 
-            </q-scroll-area>
-    </q-field>
-            </div>
-            </div>
-        
+              visible
+              style="height: 300px"
+              class="col"
+              ref="firstRef"
+            >
+              <div
+                v-for="interview in interviews"
+                :key="interview.interview_id"
+                class="q-pa-md"
+              >
+                <div class="row justify-between">
+                  <span class="q-pa-sm"> {{ interview.title }} </span>
 
+                  <span class="q-pa-sm"> {{ interview.start_date }} </span>
+
+                  <q-btn
+                    label="See"
+                    :to="`/~/cInterviewResults/${interview.interview_id}`"
+                  />
+                </div>
+              </div>
+            </q-scroll-area>
+          </q-field>
+        </div>
+      </div>
     </div>
   </div>
 </template>
