@@ -70,7 +70,7 @@ export default {
 
         const getContests = () => {
             const user_id = localStorage.getItem("currentUserID")
-            api.get(`api/v1/contest/all`).then ((response) => {
+            api.get(`api/v1/contest/all`).then((response) => {
                 if(!response.data){
                     $q.notify({
                     position:"top",
@@ -140,7 +140,7 @@ export default {
 
         return {
             currentName,
-            contest,
+            contests,
             getContests,
             sponsorContest
         }

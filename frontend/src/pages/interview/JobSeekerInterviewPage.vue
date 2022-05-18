@@ -20,7 +20,6 @@
             </q-input>
         </div>
         <div>
-            <span class="label bg-white text-black">Questions</span>
             <q-scroll-area
                 visible
                 style="height: 300px;"
@@ -52,7 +51,7 @@
 </template>
 
 <script>
-import { ref, watch } from "vue"
+import { ref, onBeforeMount, watch } from "vue"
 import { useRouter } from "vue-router"
 import { useQuasar } from "quasar"
 import { api } from "../../boot/axios"
@@ -67,9 +66,30 @@ export default {
         const currentName = ref("");
         const interviews = ref([])
 
-        const getInterviews = () => {
+        onBeforeMount(() => {
             const user_id = localStorage.getItem("currentUserID")
-            api.get(`api/v1/?user_id=${user_id}`).then ((response) => {
+            api.get(`api/v1/interview/all?user_id=${user_id}`).then((response) => {
+                if(!response.data){
+                    $q.notify({
+                    position:"top",
+                    color:"negative",
+                    message:"Something wrong"
+                    })
+                }
+                else{
+                    interviews.value = response.data
+                }
+            })
+        })
+
+
+        watch(currentName, (newName) => {
+            search(newName)
+        })
+
+        const search = async (newName) => {
+            const user_id = localStorage.getItem("currentUserID")
+            api.get(`api/v1/interview/all?user_id=${user_id}&interview_name=${newName}`).then((response) => {
                 if(!response.data){
                     $q.notify({
                     position:"top",
@@ -85,7 +105,8 @@ export default {
 
         return {
             currentName,
-            getInterviews
+            interviews,
+            search
         }
     },
 }

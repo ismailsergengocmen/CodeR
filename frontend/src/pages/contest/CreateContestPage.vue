@@ -43,7 +43,6 @@
                 </q-input>
             </div>
             <div>
-                {{ startTime }}
                 <span class="label bg-white text-black">Duration</span>
                 <q-input outlined v-model="duration"/>
             </div>
@@ -128,19 +127,11 @@ export default {
 
         // API
         const contestName = ref('');
-        const startDate = ref(null);
         const startTime = ref(null);
         const finalTime = ref('');
         const duration = ref('');
         const description = ref('');
         const categories = ref([]);
-        
-        const changeDateButtonState = () => {
-            if(!dateButton.value)
-                dateButton.value = true
-            else
-                dateButton.value = false
-        }
 
         const createContest = async () => {
             if(!contestName.value || !startTime.value || !duration.value || !categories.value){
@@ -203,23 +194,19 @@ export default {
                     })
                     }    
                 })
-                
             }
         } 
 
         return {
-            dateButton,
             dialog,
             questions,
             contestName,
             description,
-            startDate,
             startTime,
             finalTime,
             duration,
             categories,
             categoryOptions,
-            changeDateButtonState,
             createContest,
             addQuestions,
         }

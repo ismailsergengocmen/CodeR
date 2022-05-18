@@ -13,11 +13,30 @@
         </div>
         <div class="row bordered q-pa-md justify-around">
             <div name= "Set time button and date/time objects">
-                <q-btn @click = changeDateButtonState label="Set Time"/>
-                <div v-if ="dateButton == true" class="row items-start">
-                    <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm" color="black" />
-                    <q-time v-model="startTime" mask="YYYY-MM-DDTHH:mm" color="black" />
-                </div>
+                <q-input filled v-model="startTime">
+                    <template v-slot:prepend>
+                        <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date v-model="startTime" mask="YYYY-MM-DDTHH:mm">
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                    <template v-slot:append>
+                        <q-icon name="access_time" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-time v-model="startTime" mask="YYYY-MM-DDTHH:mm" format24h>
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-time>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                </q-input>
             </div>
             <div>
                 <span class="label bg-white text-black">Duration</span>
@@ -62,7 +81,7 @@
             </q-dialog>
         </div>
         <div class="row justify-around">
-        <q-btn @click="createInterviewHelper" label="Create"/>
+            <q-btn @click="createInterview" label="Create"/>
         </div>
     </div>
 </template>
@@ -88,27 +107,18 @@ export default {
         'Algorithms', 'Data Structures', 'Sorting', 'Programming Languages'];
 
         // Inner - variables
-        const dateButton = ref(false)
         const dialog = ref(false)
         const questions = ref([])
         const questionsID = ref([])
 
         // API
         const interviewName = ref('');
-        const startDate = ref(null);
         const startTime = ref(null);
         const finalTime = ref('');
         const duration = ref('');
-        
-        const changeDateButtonState = () => {
-            if(!dateButton.value)
-                dateButton.value = true
-            else
-                dateButton.value = false
-        }
 
-        const createInterview = async (interviewName, startTime, duration) => {
-            if(!interviewName || !startTime || !duration){
+        const createInterview = async () => {
+            if(!interviewName.value || !startTime.value || !duration.value){
                 $q.notify({
                 position:"top",
                 color:"negative",
@@ -116,14 +126,14 @@ export default {
                 })
             }
             else{
-                finalTime.value = startTime.value.toString()
-                getQuestionIDs()
+                finalTime.value = startTime.value
+                await getQuestionIDs()
                 const interviewData = {  
-                    title: interviewName,          
+                    title: interviewName.value,          
                     start_date: finalTime.value,
-                    duration,
+                    duration: duration.value,
                     user_id:localStorage.getItem("currentUserID"),
-                    question_ids: questionsID,
+                    question_ids: questionsID.value,
                 };
                 api.post("/api/v1/interview/create", interviewData).then((response) => {
                 if(!response.data){
@@ -146,19 +156,17 @@ export default {
             }
         }
 
-        const createInterviewHelper = () => {
-            createInterview(interviewName, startTime, duration)
-        }
-
         const addQuestions = (questionData) => {
             questions.value.push(questionData)
         }
 
-        const getQuestionIDs = () => {
-            for (let question in questions.value){
-                api.post("/api/v1/question/challenge/create", question).then((response)=>{
-                    if(response.data)
+        const getQuestionIDs = async () => {
+            questionsID.value = []
+            for (let i = 0; i < questions.value.length; i++){
+                api.post("/api/v1/question/challenge/create", questions.value[i]).then((response)=>{
+                    if(response.data){
                         questionsID.value.push(response.data)
+                    }
                     else{
                         $q.notify({
                         position:"top",
@@ -171,21 +179,15 @@ export default {
         } 
 
         return {
-            categoryOptions,
-            dateButton,
             dialog,
             questions,
-            questionsID,
             interviewName,
-            startDate,
             startTime,
             finalTime,
             duration,
-            changeDateButtonState,
+            categoryOptions,
             createInterview,
-            createInterviewHelper,
-            addQuestions,
-            getQuestionIDs
+            addQuestions
         }
     }
 }
