@@ -107,8 +107,8 @@ export default {
                 dateButton.value = false
         }
 
-        const createInterview = async (contestName, startTime, duration) => {
-            if(!contestName || !startTime || !duration){
+        const createInterview = async (interviewName, startTime, duration) => {
+            if(!interviewName || !startTime || !duration){
                 $q.notify({
                 position:"top",
                 color:"negative",
@@ -119,7 +119,7 @@ export default {
                 finalTime.value = startTime.value.toString()
                 getQuestionIDs()
                 const interviewData = {  
-                    title: contestName,          
+                    title: interviewName,          
                     start_date: finalTime.value,
                     duration,
                     user_id:localStorage.getItem("currentUserID"),
