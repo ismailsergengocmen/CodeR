@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <div class="q-pa-md">
+      <q-banner dense label="Challenges" class="text-white bg-grey">
+        <span class="row justify-center"> Company Interviews </span>
+      </q-banner>
+    </div>
     <div>
         <div class= "q-pa-md">
             <q-banner dense label="Challenges" class="text-white bg-grey">
@@ -37,7 +43,7 @@
                         
                             <span class="q-pa-sm"> {{ interview.start_date }} </span>
                         
-                            <q-btn label="See" :to="`/${interview.interview_id}`"/>  
+                            <q-btn label="See" :to="`/~/cInterviewResults/${interview.interview_id}`"/>  
                         
                     </div>
                 </div> 
@@ -46,67 +52,70 @@
             </div>
             </div>
         
+
     </div>
+  </div>
 </template>
 
 <script>
-import { ref, watch, onBeforeMount } from "vue"
-import { useRouter } from "vue-router"
-import { useQuasar } from "quasar"
-import { api } from "../../boot/axios"
+import { ref, watch, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
+import { api } from "../../boot/axios";
 
 export default {
-    name: "CompanyInterviewPage",
+  name: "CompanyInterviewPage",
 
-    setup() {
-        const $q = useQuasar();
-        const router = useRouter();
+  setup() {
+    const $q = useQuasar();
+    const router = useRouter();
 
-        const currentName = ref("");
-        const interviews = ref([])
+    const currentName = ref("");
+    const interviews = ref([]);
 
-        onBeforeMount(() => {
-            const user_id = localStorage.getItem("currentUserID")
-            api.get(`api/v1/interview/all?company_id=${user_id}`).then((response) => {
-                if(!response.data){
-                    $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"Something wrong"
-                    })
-                }
-                else{
-                    interviews.value = response.data
-                }
-            })
-        })
-
-
-        watch(currentName, (newName) => {
-            search(newName)
-        })
-
-        const search = async (newName) => {
-            const user_id = localStorage.getItem("currentUserID")
-            api.get(`api/v1/interview/all?company_id=${user_id}&interview_name=${newName}`).then((response) => {
-                if(!response.data){
-                    $q.notify({
-                    position:"top",
-                    color:"negative",
-                    message:"Something wrong"
-                    })
-                }
-                else{
-                    interviews.value = response.data
-                }
-            })
+    onBeforeMount(() => {
+      const user_id = localStorage.getItem("currentUserID");
+      api.get(`api/v1/interview/all?company_id=${user_id}`).then((response) => {
+        if (!response.data) {
+          $q.notify({
+            position: "top",
+            color: "negative",
+            message: "Something wrong",
+          });
+        } else {
+          interviews.value = response.data;
         }
+      });
+    });
 
-        return {
-            currentName,
-            interviews,
-            search
-        }
-    },
-}
+    watch(currentName, (newName) => {
+      search(newName);
+    });
+
+    const search = async (newName) => {
+      const user_id = localStorage.getItem("currentUserID");
+      api
+        .get(
+          `api/v1/interview/all?company_id=${user_id}&interview_name=${newName}`
+        )
+        .then((response) => {
+          if (!response.data) {
+            $q.notify({
+              position: "top",
+              color: "negative",
+              message: "Something wrong",
+            });
+          } else {
+            interviews.value = response.data;
+          }
+        });
+    };
+
+    return {
+      currentName,
+      interviews,
+      search,
+    };
+  },
+};
 </script>

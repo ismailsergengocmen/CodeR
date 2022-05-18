@@ -59,53 +59,52 @@
     </div>
     </div>
     </div>
-</div>
+  </div>
 </template>
 
 
 <script>
-import { ref, onBeforeMount } from '@vue/runtime-core'
-import { useRouter } from "vue-router"
-import { useQuasar } from "quasar"
-import { api } from "../../boot/axios"
+import { ref, onBeforeMount } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
+import { api } from "../../boot/axios";
 
 export default {
-    name: "JobSeekerInContestPage",
-    props: ["id"],
+  name: "JobSeekerInContestPage",
+  props: ["id"],
 
-    setup(props) {
-        const $q = useQuasar();
-        const router = useRouter();
-        
-        const contestName = ref('')
-        const contestCategories = ref([])
-        const contestDate = ref('')
-        const contestQuestions = ref([])
+  setup(props) {
+    const $q = useQuasar();
+    const router = useRouter();
 
-        onBeforeMount(() => {
-            api.get(`api/v1/contest/${props.id}`).then((response) => {
-                if(response.data){
-                    contestName.value = response.data.contest_name
-                    contestCategories.value = response.data.category
-                    contestDate.value = response.data.start_time
-                    contestQuestions.value = response.data.contest_questions
-                }
-                else{
-                    $q.notify({
-                        position:"top",
-                        color:"negative",
-                        message:"Selected contest can not be found"
-                    })
-                }
-            })
-        })
+    const contestName = ref("");
+    const contestCategories = ref([]);
+    const contestDate = ref("");
+    const contestQuestions = ref([]);
+
+    onBeforeMount(() => {
+      api.get(`api/v1/contest/${props.id}`).then((response) => {
+        if (response.data) {
+          contestName.value = response.data.contest_name;
+          contestCategories.value = response.data.category;
+          contestDate.value = response.data.start_time;
+          contestQuestions.value = response.data.contest_questions;
+        } else {
+          $q.notify({
+            position: "top",
+            color: "negative",
+            message: "Selected contest can not be found",
+          });
+        }
+      });
+    });
 
     return {
-        contestName,
-        contestCategories,
-        contestDate,
-        contestQuestions
-    }
-}
-}
+      contestName,
+      contestCategories,
+      contestDate,
+      contestQuestions,
+    };
+  },
+};
 </script>

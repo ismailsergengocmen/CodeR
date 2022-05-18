@@ -17,7 +17,7 @@ import CompanyInterviewPage from "../pages/interview/CompanyInterviewPage.vue"; 
 import CompanyInterviewResult from "../pages/interview/CompanyInterviewResult.vue"; //company
 import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue"; //company
 import JobSeekerInterviewPage from "../pages/interview/JobSeekerInterviewPage.vue"; //JS
-
+import JobSeekerInInterviewPage from "../pages/interview/JobSeekerInInterviewPage.vue";
 import ForumPage from "../pages/forum/ForumPage.vue";
 
 import Error404 from "../pages/Error404";
@@ -52,9 +52,10 @@ const routes = [
         component: JobSeekerMyContestScreen,
       },
       {
-        path: "leaderboard",
+        path: "leaderboard/:id",
         name: "ContestLeaderboardPage",
         component: ContestLeaderboardPage,
+        props: true,
       },
       {
         path: "jsInterviewPage",
@@ -65,6 +66,12 @@ const routes = [
         path: "contest/:id",
         name: "JobSeekerInContestPage",
         component: JobSeekerInContestPage,
+        props: true,
+      },
+      {
+        path: "interview/:id",
+        name: "JobSeekerInınterviewPage",
+        component: JobSeekerInInterviewPage,
         props: true,
       },
       {
@@ -100,8 +107,9 @@ const routes = [
         component: CompanyInterviewPage,
       },
       {
-        path: "cInterviewResults",
+        path: "cInterviewResults/:id",
         component: CompanyInterviewResult,
+        props: true,
       },
       {
         path: "cSponsorContest",
