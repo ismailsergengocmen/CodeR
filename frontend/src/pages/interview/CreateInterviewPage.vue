@@ -50,6 +50,11 @@
         <span class="label bg-white text-black">Duration</span>
         <q-input outlined v-model="duration" />
       </div>
+      <div>
+        <span class="label bg-white text-black">Add Participant</span>
+        <q-input outlined v-model="participantEmail" />
+        <q-btn label="Add" @click="addEmail"/>
+      </div>
     </div>
     <div name="Create Question Button" class="row justify-center q-mt-xl">
       <q-btn @click="dialog = true" color="black" label="Create Question" />
@@ -127,6 +132,9 @@ export default {
     const startTime = ref(null);
     const finalTime = ref("");
     const duration = ref("");
+    const participantEmails = ref([]);
+    const participantEmail = ref("");
+    const interviewID = ref("");
 
     const createInterview = async () => {
       if (!interviewName.value || !startTime.value || !duration.value) {
@@ -135,25 +143,25 @@ export default {
           color: "negative",
           message: "Fill all the necessary information",
         });
-      } else {
+      } 
+      else {
         finalTime.value = startTime.value;
 
         questionsID.value = [];
         for (let i = 0; i < questions.value.length; i++) {
-          api
-            .post("/api/v1/question/challenge/create", questions.value[i])
-            .then((response) => {
-              if (response.data) {
-                questionsID.value.push(response.data);
-              } else {
-                $q.notify({
-                  position: "top",
-                  color: "negative",
-                  message:
-                    "There was an error creating the question. Please try it again",
-                });
-              }
-            });
+          api.post("/api/v1/question/challenge/create", questions.value[i]).then((response) => {
+            if (response.data) {
+              questionsID.value.push(response.data);
+              interviewID.value = response.data
+            } else {
+              $q.notify({
+                position: "top",
+                color: "negative",
+                message:
+                  "There was an error creating the question. Please try it again",
+              });
+            }
+          });
         }
 
         const interviewData = {
@@ -173,6 +181,8 @@ export default {
                 message: "Something wrong",
               });
             } else {
+              interviewID.value = response.data
+              sendInvitations()
               router.push("/menu");
             }
           })
@@ -185,6 +195,29 @@ export default {
           });
       }
     };
+
+    const addEmail = () => {
+      participantEmails.value.push(participantEmail.value);
+    }
+
+    const sendInvitations = async () => {
+      for(let i = 0; i < participantEmails.value.length; i++){
+        const userID = (await api.get(`api/v1/user/userid_email/${participantEmails.value[i]}`)).data
+        const bodyData = {
+          interview_id: interviewID.value,
+          user_id: userID
+        }
+        api.post("api/v1/interview/enter", bodyData).then((response) => {
+          if(!response.data){
+            $q.notify({
+              position: "top",
+              color: "negative",
+              message: "There was an error while sending invitations",
+            });
+          }
+        })
+      }
+    }
 
     const addQuestions = (questionData) => {
       dialog.value = false;
@@ -201,6 +234,11 @@ export default {
       categoryOptions,
       createInterview,
       addQuestions,
+      participantEmails,
+      participantEmail,
+      addEmail,
+      interviewID,
+      sendInvitations
     };
   },
 };
