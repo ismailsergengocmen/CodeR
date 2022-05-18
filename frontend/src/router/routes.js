@@ -107,8 +107,9 @@ const routes = [
         component: CompanyInterviewPage,
       },
       {
-        path: "cInterviewResults",
+        path: "cInterviewResults/:id",
         component: CompanyInterviewResult,
+        props: true,
       },
       {
         path: "cSponsorContest",
