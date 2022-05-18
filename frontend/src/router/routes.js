@@ -17,7 +17,7 @@ import CompanyInterviewPage from "../pages/interview/CompanyInterviewPage.vue"; 
 import CompanyInterviewResult from "../pages/interview/CompanyInterviewResult.vue"; //company
 import CreateInterviewPage from "../pages/interview/CreateInterviewPage.vue"; //company
 import JobSeekerInterviewPage from "../pages/interview/JobSeekerInterviewPage.vue"; //JS
-
+import JobSeekerInInterviewPage from "../pages/interview/JobSeekerInInterviewPage.vue";
 import ForumPage from "../pages/forum/ForumPage.vue";
 
 import Error404 from "../pages/Error404";
@@ -55,7 +55,7 @@ const routes = [
         path: "leaderboard/:id",
         name: "ContestLeaderboardPage",
         component: ContestLeaderboardPage,
-        props:true,
+        props: true,
       },
       {
         path: "jsInterviewPage",
