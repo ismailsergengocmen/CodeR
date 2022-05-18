@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div>
-      <q-btn label="Go to LeaderBoard" class="q-pa-sm" />
-    </div>
     <div class="full-height">
       <div class="fixed-top-center q-pa-md">
         <q-banner class="bg-grey text-white" dense>
@@ -15,7 +12,12 @@
           <span class="row justify-center"> {{ interviewDate }} </span>
         </div>
       </div>
-      <div class="row justify-content">
+
+
+      <div class="q-pa-md">
+        <div class="row justify-center">
+            <q-field outlined style="width: 50%;" color="black">
+
         <span class="label bg-white text-black">Questions</span>
         <q-scroll-area visible style="height: 300px" class="col">
           <div
@@ -23,25 +25,25 @@
             :key="question.question_id"
             class="q-pa-sm"
           >
-            <div class="row justify-content">
-              <div>
+            <div class="row justify-between">
+              <div class= "q-pa-sm">
+
                 <span class="label bg-white text-black">
                   {{ question.question_title }}
                 </span>
-              </div>
-              <div>
-                <q-separator vertical inset class="q-pa-md" />
-              </div>
-              <div>
+
                 <q-btn
                   label="Begin"
                   :to="`/~/challenge/${question.question_id}`"
-                  class="q-pa-sm"
-                />
+                  class="q-pa-sm"/>
+
               </div>
             </div>
           </div>
         </q-scroll-area>
+            </q-field>
+        
+        </div>
       </div>
     </div>
   </div>
