@@ -34,64 +34,64 @@
     <div class="q-pa-md">
         <div class="row justify-center">
     <!-- contests -->
-    <q-field outlined style="width: 50%;" color="black">
-        <q-scroll-area
-            visible
-            style="height: 500px;" 
-            style2= "weight: 200px;"
-            class="col"
-            ref="firstRef"
-            >
-            <div v-for="contest in contests" :key="contest.contest_id" class="q-pa-sm">
-                <q-form class="q-gutter-y-md q-px-md q-py-md full-width" >
-                    <div class="col">
-                        <div>
-                            <span class="row justify-center"> {{contest.contest_name}} </span> <!-- {{contestName}} -->
-                        </div>
-                    </div>
-            
-                    <div class="col">
-                        <div class="q-mr-lg">
-                             
-                            <q-field 
-                            outlined 
-                            stack-label
-                            label="Contest Categories"
-                            color="grey"
-                            >
-                                <template v-slot:control>
-                                    <div class="self-center">
-                                        <span class="row justify-center"> {{contest.category}} </span> 
-                                    </div>
-                                </template>
-                            </q-field>
+            <q-field outlined style="width: 50%;" color="black">
+                <q-scroll-area
+                    visible
+                    style="height: 500px;" 
+                    style2= "weight: 200px;"
+                    class="col"
+                    ref="firstRef"
+                    >
+                    <div v-for="contest in contests" :key="contest.contest_id" class="q-pa-sm">
+                        <q-form class="q-gutter-y-md q-px-md q-py-md full-width" >
+                            <div class="col">
+                                <div>
+                                    <span class="row justify-center"> {{contest.contest_name}} </span> <!-- {{contestName}} -->
+                                </div>
+                            </div>
+                    
+                            <div class="col">
+                                <div class="q-mr-lg">
+                                    
+                                    <q-field 
+                                    outlined 
+                                    stack-label
+                                    label="Contest Categories"
+                                    color="grey"
+                                    >
+                                        <template v-slot:control>
+                                            <div class="self-center">
+                                                <span class="row justify-center"> {{contest.category}} </span> 
+                                            </div>
+                                        </template>
+                                    </q-field>
 
-                            <q-field 
-                            outlined 
-                            stack-label
-                            label="Sponsors"
-                            color="grey"
-                            >
-                                <template v-slot:control>
-                                    <div class="self-center">
-                                        <div class="row justify-center q-pa-sm" v-for="sponsor in contest.sponsors" :key="sponsor.user_id">
-                                            <span> {{sponsor.sponsor_name}}</span> 
-                                        </div>
-                                    </div>
-                                </template>
-                            </q-field> 
-                        </div> 
-                    </div>
-            
-                    <div class="col">
-                        <q-btn 
-                        label="Join This Contest" @click="enterContest(contest.contest_id)"/>
-                    </div>
+                                    <q-field 
+                                    outlined 
+                                    stack-label
+                                    label="Sponsors"
+                                    color="grey"
+                                    >
+                                        <template v-slot:control>
+                                            <div class="self-center">
+                                                <div class="row justify-center q-pa-sm" v-for="sponsor in contest.sponsors" :key="sponsor.user_id">
+                                                    <span> {{sponsor.sponsor_name}}</span> 
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </q-field> 
+                                </div> 
+                            </div>
+                    
+                            <div class="col">
+                                <q-btn 
+                                label="Join This Contest" @click="enterContest(contest.contest_id)"/>
+                            </div>
 
-                </q-form>
-            </div>
-        </q-scroll-area>
-    </q-field>
+                        </q-form>
+                    </div>
+                </q-scroll-area>
+            </q-field>
   </div>
   </div>  
 </div>
@@ -108,7 +108,7 @@ import { api } from "../../boot/axios"
 export default {
     name: "ChallengeFilter",
 
-    setup(ctx){
+    setup(props,ctx){
         const $q = useQuasar();
         const router = useRouter();
         const currentName = ref("");
@@ -163,4 +163,8 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
 </style>
