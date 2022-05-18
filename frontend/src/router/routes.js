@@ -52,9 +52,10 @@ const routes = [
         component: JobSeekerMyContestScreen,
       },
       {
-        path: "leaderboard",
+        path: "leaderboard/:id",
         name: "ContestLeaderboardPage",
         component: ContestLeaderboardPage,
+        props:true,
       },
       {
         path: "jsInterviewPage",
@@ -65,6 +66,12 @@ const routes = [
         path: "contest/:id",
         name: "JobSeekerInContestPage",
         component: JobSeekerInContestPage,
+        props: true,
+      },
+      {
+        path: "interview/:id",
+        name: "JobSeekerInınterviewPage",
+        component: JobSeekerInInterviewPage,
         props: true,
       },
       {
